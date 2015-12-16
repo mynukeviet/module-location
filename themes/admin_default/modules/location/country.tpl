@@ -65,12 +65,11 @@
 <!-- END: error -->
 <div class="panel panel-default">
 <div class="panel-body">
-<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
-	<input type="hidden" name="countryid" value="{ROW.countryid}" />
+<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&is_edit={IS_EDIT}" method="post">
 	<div class="form-group">
 		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.countryid}</strong> <span class="red">(*)</span></label>
 		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="countryid" value="{ROW.countryid}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" <!-- BEGIN: disabled -->disabled="disabled"<!-- END: disabled --> />
+			<input class="form-control" type="text" name="countryid" value="{ROW.countryid}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" <!-- BEGIN: disabled -->readonly="readonly"<!-- END: disabled --> />
 		</div>
 	</div>
 	<div class="form-group">
@@ -143,7 +142,7 @@
 <!-- BEGIN: auto_get_alias -->
 <script type="text/javascript">
 //<![CDATA[
-	$("[name='alias']").change(function() {
+	$("[name='title']").change(function() {
 		nv_get_alias('id_alias');
 	});
 //]]>
