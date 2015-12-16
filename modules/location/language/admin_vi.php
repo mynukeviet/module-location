@@ -18,4 +18,20 @@ $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['main'] = 'Trang chính';
 $lang_module['config'] = 'Cấu hình';
-$lang_module['save'] = 'Save';
+$lang_module['save'] = 'Lưu lại';
+$lang_module['add'] = 'Thêm mới';
+$lang_module['edit'] = 'Sửa';
+$lang_module['delete'] = 'Xóa';
+$lang_module['number'] = 'STT';
+$lang_module['active'] = 'Kích họat';
+$lang_module['search_title'] = 'Nhập từ khóa tìm kiếm';
+$lang_module['search_submit'] = 'Tìm kiếm';
+$lang_module['title'] = 'Tên gọi';
+$lang_module['alias'] = 'Liên kết tĩnh';
+$lang_module['status'] = 'Kích họat';
+
+//Lang for function country
+$lang_module['country'] = 'Quốc gia';
+$lang_module['countryid'] = 'Mã quốc gia';
+$lang_module['error_required_countryid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã quốc gia';
+$lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên gọi';
