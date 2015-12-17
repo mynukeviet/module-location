@@ -285,7 +285,7 @@ if( $show_view )
 		$xtpl->assign( 'CHECK', $view['status'] == 1 ? 'checked' : '' );
 		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;is_edit=1&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $view['provinceid'];
 		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;countryid=' . $row['countryid'] . '&amp;delete_provinceid=' . $view['provinceid'] . '&amp;delete_checkss=' . md5( $view['provinceid'] . NV_CACHE_PREFIX . $client_info['session_id'] );
-		$view['link_district'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=district&amp;provinceid=' . $view['provinceid'];
+		$view['link_district'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=district&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $view['provinceid'];
 		$xtpl->assign( 'VIEW', $view );
 		$xtpl->parse( 'main.view.loop' );
 	}
@@ -320,7 +320,15 @@ elseif( $is_edit )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-$page_title = sprintf( $lang_module['province_country'], $array_country[$row['countryid']]['title'] );
+$array_mod_title = array(
+	array(
+		'title' => $lang_module['main'],
+		'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name
+	),
+	array(
+		'title' => $array_country[$row['countryid']]['title']
+	)
+);
 
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );

@@ -40,7 +40,14 @@ $lang_module['error_required_countryid_exist'] = 'Lỗi: Mã quốc gia đã t�
 $lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên gọi';
 
 $lang_module['province'] = 'Tỉnh thành';
+$lang_module['province_c'] = 'Thuộc Tỉnh/Thành phố';
 $lang_module['provinceid'] = 'Mã tỉnh thành';
-$lang_module['province_country'] = 'Các tỉnh thành thuộc quốc gia %s';
 $lang_module['error_required_provinceid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã tỉnh thành';
 $lang_module['error_required_provinceid_exist'] = 'Lỗi: Mã tỉnh thành đã tồn tại';
+
+$lang_module['district'] = 'Quận/Huyện';
+$lang_module['districtid'] = 'Mã Quận/Huyện';
+$lang_module['location'] = 'Tọa độ';
+$lang_module['location_note'] = 'Ví dụ: 21 02 08N, 105 49 38E';
+$lang_module['error_required_districtid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã Quận/Huyện';
+$lang_module['error_required_districtid_exist'] = 'Lỗi: Mã Quận/Huyện đã tồn tại';
