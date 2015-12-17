@@ -71,7 +71,7 @@ if ( $nv_Request->isset_request( 'delete_countryid', 'get' ) and $nv_Request->is
 {
 	$countryid = $nv_Request->get_title( 'delete_countryid', 'get' );
 	$delete_checkss = $nv_Request->get_string( 'delete_checkss', 'get' );
-	if( $countryid > 0 and $delete_checkss == md5( $countryid . NV_CACHE_PREFIX . $client_info['session_id'] ) )
+	if( !empty( $countryid ) and $delete_checkss == md5( $countryid . NV_CACHE_PREFIX . $client_info['session_id'] ) )
 	{
 		$weight=0;
 		$sql = 'SELECT weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_country WHERE countryid =' . $db->quote( $countryid );
@@ -129,7 +129,7 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 	{
 		$error[] = $lang_module['error_required_countryid'];
 	}
-	elseif( $count > 0 )
+	elseif( $count > 0 and !$is_edit )
 	{
 		$error[] = $lang_module['error_required_countryid_exist'];
 	}
