@@ -25,8 +25,8 @@
 			<thead>
 				<tr>
 					<th class="w100">{LANG.weight}</th>
-					<th class="w150">{LANG.countryid}</th>
 					<th>{LANG.title}</th>
+					<th class="w150">{LANG.country_code}</th>
 					<th class="w100 text-center">{LANG.active}</th>
 					<th class="w150">&nbsp;</th>
 				</tr>
@@ -48,8 +48,8 @@
 						<!-- END: weight_loop -->
 					</select>
 				</td>
-					<td> {VIEW.countryid} </td>
 					<td> <a href="{VIEW.link_province}" title="{VIEW.title}">{VIEW.title}</a> <span class="red">({VIEW.count})</span> </td>
+					<td> {VIEW.code} </td>
 					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.countryid}" value="{VIEW.countryid}" {CHECK} onclick="nv_change_status({VIEW.countryid});" /></td>
 					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
 				</tr>
@@ -65,13 +65,8 @@
 <!-- END: error -->
 <div class="panel panel-default">
 <div class="panel-body">
-<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&is_edit={IS_EDIT}" method="post">
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.countryid}</strong> <span class="red">(*)</span></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="countryid" value="{ROW.countryid}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" <!-- BEGIN: disabled -->readonly="readonly"<!-- END: disabled --> />
-		</div>
-	</div>
+<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
+	<input type="hidden" name="countryid" value="{ROW.countryid}" />
 	<div class="form-group">
 		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
 		<div class="col-sm-19 col-md-20">
@@ -88,6 +83,12 @@
 						<i class="fa fa-refresh fa-lg" onclick="nv_get_alias('id_alias');">&nbsp;</i>
 					</button> </span>
 			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.code}</strong></label>
+		<div class="col-sm-19 col-md-20">
+			<input class="form-control" type="text" name="code" value="{ROW.code}" />
 		</div>
 	</div>
 	<div class="form-group" style="text-align: center"><input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" /></div>

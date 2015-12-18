@@ -34,16 +34,17 @@ $lang_module['type'] = 'Loại';
 //Lang for function country
 $lang_module['country'] = 'Quốc gia';
 $lang_module['country_c'] = 'Thuộc quốc gia';
-$lang_module['countryid'] = 'Mã quốc gia';
+$lang_module['country_code'] = 'Mã quốc gia';
 $lang_module['error_required_countryid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã quốc gia';
 $lang_module['error_required_countryid_exist'] = 'Lỗi: Mã quốc gia đã tồn tại';
 $lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên gọi';
 
 $lang_module['province'] = 'Tỉnh thành';
 $lang_module['province_c'] = 'Thuộc Tỉnh/Thành phố';
-$lang_module['provinceid'] = 'Mã tỉnh thành';
+$lang_module['province_code'] = 'Mã hành chính';
 $lang_module['error_required_provinceid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã tỉnh thành';
 $lang_module['error_required_provinceid_exist'] = 'Lỗi: Mã tỉnh thành đã tồn tại';
+$lang_module['error_required_province_countryid'] = 'Lỗi: bạn cần chọn quốc gia';
 
 $lang_module['district'] = 'Quận/Huyện';
 $lang_module['districtid'] = 'Mã Quận/Huyện';
@@ -51,3 +52,4 @@ $lang_module['location'] = 'Tọa độ';
 $lang_module['location_note'] = 'Ví dụ: 21 02 08N, 105 49 38E';
 $lang_module['error_required_districtid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã Quận/Huyện';
 $lang_module['error_required_districtid_exist'] = 'Lỗi: Mã Quận/Huyện đã tồn tại';
+$lang_module['error_required_districtid_provinceid'] = 'Lỗi: bạn cần chọn Tỉnh/Thành phố';

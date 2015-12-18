@@ -27,8 +27,8 @@
 			<thead>
 				<tr>
 					<th class="w100">{LANG.weight}</th>
-					<th class="w150">{LANG.districtid}</th>
 					<th>{LANG.title}</th>
+					<th class="w150">{LANG.province_code}</th>
 					<th class="w150">{LANG.type}</th>
 					<th class="w100 text-center">{LANG.active}</th>
 					<th class="w150">&nbsp;</th>
@@ -37,7 +37,7 @@
 			<!-- BEGIN: generate_page -->
 			<tfoot>
 				<tr>
-					<td class="text-center" colspan="5">{NV_GENERATE_PAGE}</td>
+					<td class="text-center" colspan="6">{NV_GENERATE_PAGE}</td>
 				</tr>
 			</tfoot>
 			<!-- END: generate_page -->
@@ -51,11 +51,11 @@
 						<!-- END: weight_loop -->
 					</select>
 				</td>
-					<td> {VIEW.districtid} </td>
 					<td> {VIEW.title} </td>
+					<td> {VIEW.code} </td>
 					<td> {VIEW.type} </td>
 					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.districtid}" value="{VIEW.districtid}" {CHECK} onclick="nv_change_status({VIEW.districtid});" /></td>
-					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
+					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}#form">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
 				</tr>
 				<!-- END: loop -->
 			</tbody>
@@ -64,61 +64,65 @@
 </form>
 <!-- END: view -->
 
-<!-- BEGIN: error -->
-<div class="alert alert-warning">{ERROR}</div>
-<!-- END: error -->
-<div class="panel panel-default">
-<div class="panel-body">
-<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&is_edit={IS_EDIT}&countryid={ROW.countryid}" method="post">
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.districtid}</strong> <span class="red">(*)</span></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="districtid" value="{ROW.districtid}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" <!-- BEGIN: disabled -->readonly="readonly"<!-- END: disabled --> />
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="title" value="{ROW.title}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.alias}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<div class="input-group">
-				<input class="form-control" type="text" name="alias" value="{ROW.alias}" id="id_alias" />
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">
-						<i class="fa fa-refresh fa-lg" onclick="nv_get_alias('id_alias');">&nbsp;</i>
-					</button> </span>
+<div id="form">
+	<!-- BEGIN: error -->
+	<div class="alert alert-warning">{ERROR}</div>
+	<!-- END: error -->
+
+	<div class="panel panel-default">
+	<div class="panel-body">
+	<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&countryid={ROW.countryid}" method="post">
+		<input type="hidden" name="districtid" value="{ROW.districtid}" />
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
+			<div class="col-sm-19 col-md-20">
+				<input class="form-control" type="text" name="title" value="{ROW.title}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
 			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.province_c}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<select name="provinceid" class="form-control">
-				<!-- BEGIN: province -->
-				<option value="{PROVINCE.provinceid}" {PROVINCE.selected}>{PROVINCE.title}</option>
-				<!-- END: province -->
-			</select>
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.alias}</strong></label>
+			<div class="col-sm-19 col-md-20">
+				<div class="input-group">
+					<input class="form-control" type="text" name="alias" value="{ROW.alias}" id="id_alias" />
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">
+							<i class="fa fa-refresh fa-lg" onclick="nv_get_alias('id_alias');">&nbsp;</i>
+						</button> </span>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="type" value="{ROW.type}" />
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.province_c}</strong></label>
+			<div class="col-sm-19 col-md-20">
+				<select name="provinceid" class="form-control">
+					<!-- BEGIN: province -->
+					<option value="{PROVINCE.provinceid}" {PROVINCE.selected}>{PROVINCE.title}</option>
+					<!-- END: province -->
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.location}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="location" value="{ROW.location}" placeholder="{LANG.location_note}" />
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.province_code}</strong> </label>
+			<div class="col-sm-19 col-md-20">
+				<input class="form-control" type="text" name="code" value="{ROW.code}" />
+			</div>
 		</div>
-	</div>
-	<div class="form-group" style="text-align: center"><input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" /></div>
-</form>
-</div></div>
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type}</strong></label>
+			<div class="col-sm-19 col-md-20">
+				<input class="form-control" type="text" name="type" value="{ROW.type}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.location}</strong></label>
+			<div class="col-sm-19 col-md-20">
+				<input class="form-control" type="text" name="location" value="{ROW.location}" placeholder="{LANG.location_note}" />
+			</div>
+		</div>
+		<div class="form-group" style="text-align: center"><input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" /></div>
+	</form>
+	</div></div>
+</div>
 
 <script type="text/javascript">
 //<![CDATA[

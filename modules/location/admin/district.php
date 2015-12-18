@@ -10,23 +10,6 @@
 
 if ( ! defined( 'NV_IS_FILE_ADMIN' ) ) die( 'Stop!!!' );
 
-/*
-$re = $db->query( 'select * from nv4_location_district' );
-while( $row = $re->fetch() )
-{
-	$count = $db->query( 'select COUNT(*) from nv4_location_district' )->fetchColumn();
-	if( $count == 0 )
-	{
-		$db->query( 'update nv4_location_district set alias=' . $db->quote( change_alias( $row['title']) ) . ' where districtid=' . $row['districtid'] );
-	}
-	else {
-		$db->query( 'update nv4_location_district set alias=' . $db->quote( change_alias( $row['title']) . '-' . $row['districtid'] ) . ' where districtid=' . $row['districtid'] );
-	}
-}
-die('1');
- *
- */
-
 if ( $nv_Request->isset_request( 'get_alias_title', 'post' ) )
 {
 	$alias = $nv_Request->get_title( 'get_alias_title', 'post', '' );
@@ -37,7 +20,7 @@ if ( $nv_Request->isset_request( 'get_alias_title', 'post' ) )
 //change status
 if( $nv_Request->isset_request( 'change_status', 'post, get' ) )
 {
-	$districtid = $nv_Request->get_title( 'districtid', 'post, get', '' );
+	$districtid = $nv_Request->get_int( 'districtid', 'post, get', 0 );
 	$content = 'NO_' . $districtid;
 
 	$query = 'SELECT status FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $districtid;
@@ -58,23 +41,23 @@ if( $nv_Request->isset_request( 'change_status', 'post, get' ) )
 
 if( $nv_Request->isset_request( 'ajax_action', 'post' ) )
 {
-	$provinceid = $nv_Request->get_title( 'provinceid', 'post, get', '' );
-	$districtid = $nv_Request->get_title( 'districtid', 'post', 0 );
+	$provinceid = $nv_Request->get_int( 'provinceid', 'post, get', 0 );
+	$districtid = $nv_Request->get_int( 'districtid', 'post', 0 );
 	$new_vid = $nv_Request->get_int( 'new_vid', 'post', 0 );
 	$content = 'NO_' . $districtid;
 	if( $new_vid > 0 )
 	{
-		$sql = 'SELECT districtid FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid!=' . $db->quote( $districtid ) . ' AND provinceid=' . $db->quote( $provinceid ) . ' ORDER BY weight ASC';
+		$sql = 'SELECT districtid FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid!=' . $districtid . ' AND provinceid=' . $db->quote( $provinceid ) . ' ORDER BY weight ASC';
 		$result = $db->query( $sql );
 		$weight = 0;
 		while( $row = $result->fetch() )
 		{
 			++$weight;
 			if( $weight == $new_vid ) ++$weight;
-			$sql = 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $weight . ' WHERE districtid=' . $db->quote( $row['districtid'] ) . ' AND provinceid=' . $db->quote( $provinceid );
+			$sql = 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $weight . ' WHERE districtid=' . $row['districtid'] . ' AND provinceid=' . $db->quote( $provinceid );
 			$db->query( $sql );
 		}
-		$sql = 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $new_vid . ' WHERE districtid=' . $db->quote( $districtid ) . ' AND provinceid=' . $db->quote( $provinceid );
+		$sql = 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $new_vid . ' WHERE districtid=' . $districtid . ' AND provinceid=' . $db->quote( $provinceid );
 		$db->query( $sql );
 		$content = 'OK_' . $districtid;
 	}
@@ -116,9 +99,9 @@ if ( $nv_Request->isset_request( 'delete_districtid', 'get' ) and $nv_Request->i
 
 $row = array();
 $error = array();
-$row['districtid'] = $nv_Request->get_title( 'districtid', 'post,get', '' );
-$row['countryid'] = $nv_Request->get_title( 'countryid', 'post,get', '' );
-$row['provinceid'] = $nv_Request->get_title( 'provinceid', 'post,get', '' );
+$row['districtid'] = $nv_Request->get_int( 'districtid', 'post,get', 0 );
+$row['countryid'] = $nv_Request->get_int( 'countryid', 'post,get', 0 );
+$row['provinceid'] = $nv_Request->get_int( 'provinceid', 'post,get', 0 );
 
 $array_country = nv_location_get_country();
 if( !isset( $array_country[$row['countryid']] ) )
@@ -134,12 +117,10 @@ if( !isset( $array_province[$row['provinceid']] ) )
 	die();
 }
 
-$is_edit = $nv_Request->get_int( 'is_edit', 'post,get', 0 );
-
 if ( $nv_Request->isset_request( 'submit', 'post' ) )
 {
-	$row['districtid'] = $nv_Request->get_title( 'districtid', 'post,get', '' );
-	$row['countryid'] = $nv_Request->get_title( 'countryid', 'post,get', '' );
+	$row['code'] = $nv_Request->get_title( 'code', 'post,get', '' );
+	$row['provinceid'] = $nv_Request->get_int( 'provinceid', 'post,get', 0 );
 	$row['title'] = $nv_Request->get_title( 'title', 'post', '' );
 	$row['type'] = $nv_Request->get_title( 'type', 'post', '' );
 	$row['location'] = $nv_Request->get_title( 'location', 'post', '' );
@@ -155,32 +136,34 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 
 		if( $stmt->fetchColumn() )
 		{
-			$row['alias'] = $row['alias'] . '-' . $row['districtid'];
+			$weight = $db->query( 'SELECT MAX(weight) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $row['districtid'] . ' AND provinceid=' . $row['provinceid'] )->fetchColumn();
+			$weight = intval( $weight ) + 1;
+			$row['alias'] = $row['alias'] . '-' . $weight;
 		}
 	}
 
-	$count = $db->query( 'SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $db->quote( $row['districtid'] ) )->fetchColumn();
-
-	if( empty( $row['districtid'] ) )
-	{
-		$error[] = $lang_module['error_required_districtid'];
-	}
-	elseif( $count > 0 and !$is_edit )
-	{
-		$error[] = $lang_module['error_required_districtid_exist'];
-	}
-	elseif( empty( $row['title'] ) )
+	if( empty( $row['title'] ) )
 	{
 		$error[] = $lang_module['error_required_title'];
+	}
+	elseif( empty( $row['provinceid'] ) )
+	{
+		$error[] = $lang_module['error_required_title'];
+	}
+
+	$count = $db->query( 'SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $db->quote( $row['districtid'] ) )->fetchColumn();
+	if( $count > 0 and $row['districtid'] == 0 )
+	{
+		$error[] = $lang_module['error_required_districtid_exist'];
 	}
 
 	if( empty( $error ) )
 	{
 		try
 		{
-			if( !$is_edit )
+			if( empty( $row['districtid'] ) )
 			{
-				$stmt = $db->prepare( 'INSERT INTO ' . $db_config['prefix'] . '_' . $module_data . '_district (districtid, provinceid, title, alias, type, location, weight) VALUES (:districtid, :provinceid, :title, :alias, :type, :location, :weight)' );
+				$stmt = $db->prepare( 'INSERT INTO ' . $db_config['prefix'] . '_' . $module_data . '_district (code, provinceid, title, alias, type, location, weight) VALUES (:code, :provinceid, :title, :alias, :type, :location, :weight)' );
 
 				$weight = $db->query( 'SELECT max(weight) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district' )->fetchColumn();
 				$weight = intval( $weight ) + 1;
@@ -188,9 +171,9 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			}
 			else
 			{
-				$stmt = $db->prepare( 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET provinceid = :provinceid, title = :title, alias = :alias, type = :type, location = :location WHERE districtid=:districtid' );
+				$stmt = $db->prepare( 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET code = :code, provinceid = :provinceid, title = :title, alias = :alias, type = :type, location = :location WHERE districtid=' . $row['districtid'] );
 			}
-			$stmt->bindParam( ':districtid', $row['districtid'], PDO::PARAM_STR );
+			$stmt->bindParam( ':code', $row['code'], PDO::PARAM_STR );
 			$stmt->bindParam( ':provinceid', $row['provinceid'], PDO::PARAM_STR );
 			$stmt->bindParam( ':title', $row['title'], PDO::PARAM_STR );
 			$stmt->bindParam( ':alias', $row['alias'], PDO::PARAM_STR );
@@ -225,7 +208,7 @@ elseif( $row['districtid'] > 0 )
 }
 else
 {
-	$row['districtid'] = '';
+	$row['code'] = '';
 	$row['title'] = '';
 	$row['alias'] = '';
 	$row['status'] = 1;
@@ -287,7 +270,6 @@ $xtpl->assign( 'MODULE_NAME', $module_name );
 $xtpl->assign( 'MODULE_UPLOAD', $module_upload );
 $xtpl->assign( 'OP', $op );
 $xtpl->assign( 'ROW', $row );
-$xtpl->assign( 'IS_EDIT', $is_edit );
 $xtpl->assign( 'Q', $q );
 
 if( $show_view )
@@ -316,7 +298,7 @@ if( $show_view )
 			$xtpl->parse( 'main.view.loop.weight_loop' );
 		}
 		$xtpl->assign( 'CHECK', $view['status'] == 1 ? 'checked' : '' );
-		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;is_edit=1&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $row['provinceid'] . '&amp;districtid=' . $view['districtid'];
+		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $row['provinceid'] . '&amp;districtid=' . $view['districtid'];
 		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;provinceid=' . $row['provinceid'] . '&amp;delete_districtid=' . $view['districtid'] . '&amp;delete_checkss=' . md5( $view['districtid'] . NV_CACHE_PREFIX . $client_info['session_id'] );
 		$view['link_district'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=district&amp;districtid=' . $view['districtid'];
 		$xtpl->assign( 'VIEW', $view );
@@ -344,10 +326,6 @@ if( ! empty( $error ) )
 if( empty( $row['districtid'] ) )
 {
 	$xtpl->parse( 'main.auto_get_alias' );
-}
-elseif( $is_edit )
-{
-	$xtpl->parse( 'main.disabled' );
 }
 
 $xtpl->parse( 'main' );
