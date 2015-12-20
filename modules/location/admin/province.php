@@ -217,11 +217,13 @@ if ( ! $nv_Request->isset_request( 'id', 'post,get' ) )
 	$db->sqlreset()
 		->select( 'COUNT(*)' )
 		->from( '' . $db_config['prefix'] . '_' . $module_data . '_province' );
-
+	$where = ' countryid=' . $row['countryid'];
 	if( ! empty( $q ) )
 	{
-		$db->where( 'provinceid LIKE :q_provinceid OR title LIKE :q_title OR type LIKE :q_type ' );
+		$where .= 'provinceid LIKE :q_provinceid OR title LIKE :q_title OR type LIKE :q_type ';
 	}
+	$db->where( $where );
+
 	$sth = $db->prepare( $db->sql() );
 
 	if( ! empty( $q ) )

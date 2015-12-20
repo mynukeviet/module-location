@@ -78,17 +78,26 @@ if ( $nv_Request->isset_request( 'delete_countryid', 'get' ) and $nv_Request->is
 		$result = $db->query( $sql );
 		list( $weight) = $result->fetch( 3 );
 
+		// Xoa quoc gia
 		$db->query('DELETE FROM ' . $db_config['prefix'] . '_' . $module_data . '_country  WHERE countryid = ' . $db->quote( $countryid ) );
 		if( $weight > 0)
 		{
 			$sql = 'SELECT countryid, weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_country WHERE weight >' . $weight;
 			$result = $db->query( $sql );
-			while(list( $countryid, $weight) = $result->fetch( 3 ))
+			while(list( $_countryid, $weight) = $result->fetch( 3 ))
 			{
 				$weight--;
-				$db->query( 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_country SET weight=' . $weight . ' WHERE countryid=' . intval( $countryid ));
+				$db->query( 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_country SET weight=' . $weight . ' WHERE countryid=' . intval( $_countryid ));
 			}
 		}
+
+		// Xoa Tinh/Thanh pho truc thuoc
+		$result = $db->query( 'SELECT provinceid FROM ' . $db_config['prefix'] . '_' . $module_data . '_province WHERE countryid=' . $countryid );
+		while( list( $provinceid ) = $result->fetch( 3 ) )
+		{
+			nv_location_delete_province( $provinceid );
+		}
+
 		nv_del_moduleCache( $module_name );
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 		die();
