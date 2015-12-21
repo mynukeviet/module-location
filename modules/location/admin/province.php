@@ -220,7 +220,7 @@ if ( ! $nv_Request->isset_request( 'id', 'post,get' ) )
 	$where = ' countryid=' . $row['countryid'];
 	if( ! empty( $q ) )
 	{
-		$where .= 'provinceid LIKE :q_provinceid OR title LIKE :q_title OR type LIKE :q_type ';
+		$where .= ' AND provinceid LIKE :q_provinceid OR title LIKE :q_title OR type LIKE :q_type ';
 	}
 	$db->where( $where );
 
