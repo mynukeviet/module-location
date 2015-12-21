@@ -88,6 +88,21 @@ function nv_location_get_province_info( $provinceid, $module = 'location' )
 }
 
 /**
+ * nv_location_get_district_info()
+ *
+ * @param string $module
+ * @return
+ */
+function nv_location_get_district_info( $districtid, $module = 'location' )
+{
+	global $db, $db_config, $site_mods;
+
+	$district_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND districtid=' . $districtid )->fetch();
+
+	return $district_info;
+}
+
+/**
  * nv_location_build_input()
  *
  * @param string $module
