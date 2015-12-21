@@ -32,7 +32,7 @@
 	<div class="col-xs-24 col-sm-12 col-md-12">
 		<select class="form-control m-bottom" <!-- BEGIN: none_multiple -->name="districtid"<!-- END: none_multiple --> id="districtid" <!-- BEGIN: multiple -->name="districtid[]" multiple="multiple" data-multiple="{MULTPLE}"<!-- END: multiple --> >
 			<!-- BEGIN: loop -->
-			<option value="{DISTRICT.districtid}">{DISTRICT.title}</option>
+			<option value="{DISTRICT.districtid}" {DISTRICT.selected}>{DISTRICT.title}</option>
 			<!-- END: loop -->
 		</select>
 	</div>
