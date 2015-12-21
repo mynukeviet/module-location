@@ -34,6 +34,7 @@ $lang_module['type'] = 'Loại';
 //Lang for function country
 $lang_module['country'] = 'Quốc gia';
 $lang_module['country_c'] = 'Thuộc quốc gia';
+$lang_module['country_cc'] = 'Chọn quốc gia';
 $lang_module['country_code'] = 'Mã quốc gia';
 $lang_module['error_required_countryid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã quốc gia';
 $lang_module['error_required_countryid_exist'] = 'Lỗi: Mã quốc gia đã tồn tại';
@@ -41,12 +42,14 @@ $lang_module['error_required_title'] = 'Lỗi: bạn cần nhập dữ liệu ch
 
 $lang_module['province'] = 'Tỉnh thành';
 $lang_module['province_c'] = 'Thuộc Tỉnh/Thành phố';
+$lang_module['province_cc'] = 'Chọn Tỉnh/Thành phố';
 $lang_module['province_code'] = 'Mã hành chính';
 $lang_module['error_required_provinceid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã tỉnh thành';
 $lang_module['error_required_provinceid_exist'] = 'Lỗi: Mã tỉnh thành đã tồn tại';
 $lang_module['error_required_province_countryid'] = 'Lỗi: bạn cần chọn quốc gia';
 
 $lang_module['district'] = 'Quận/Huyện';
+$lang_module['district_cc'] = 'Chọn Quận/Huyện';
 $lang_module['districtid'] = 'Mã Quận/Huyện';
 $lang_module['location'] = 'Tọa độ';
 $lang_module['location_note'] = 'Ví dụ: 21 02 08N, 105 49 38E';

@@ -15,11 +15,18 @@ $is_district = false;
 if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 {
 	$data_config = array(
-		'select_countyid' => $nv_Request->get_int( 'countryid', 'post,get', 0 ),
-		'select_provinceid' => $nv_Request->get_int( 'provinceid', 'post,get', 0 ),
-		'allow_country' => $nv_Request->get_int( 'districtid', 'post,get', 0 ),
+		'select_countyid' => $nv_Request->get_int( 'select_countryid', 'post,get', 0 ),
+		'select_provinceid' => $nv_Request->get_int( 'select_provinceid', 'post,get', 0 ),
+		'select_districtid' => $nv_Request->get_int( 'select_districtid', 'post,get', 0 ),
+		'allow_country' => $nv_Request->get_title( 'allow_country', 'post,get', '' ),
+		'allow_province' => $nv_Request->get_title( 'allow_province', 'post,get', '' ),
+		'allow_district' => $nv_Request->get_title( 'allow_district', 'post,get', '' ),
 		'multiple_province' => $nv_Request->get_bool( 'multiple_province', 'post,get', 0 ),
-		'multiple_district' => $nv_Request->get_bool( 'multiple_district', 'post,get', 0 )
+		'multiple_district' => $nv_Request->get_bool( 'multiple_district', 'post,get', 0 ),
+		'is_district' => $nv_Request->get_bool( 'is_district', 'post,get', 0 ),
+		'blank_title_country' => $nv_Request->get_bool( 'blank_title_country', 'post,get', 0 ),
+		'blank_title_province' => $nv_Request->get_bool( 'blank_title_province', 'post,get', 0 ),
+		'blank_title_district' => $nv_Request->get_bool( 'blank_title_district', 'post,get', 0 )
 	);
 	$location_html = nv_location_build_input( $data_config );
 	die( $location_html );
@@ -118,7 +125,7 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 		// Tỉnh được chọn
 		'select_provinceid' => isset( $data_config['select_provinceid'] ) ? $data_config['select_provinceid'] : 0,
 		// Quận/Huyện được chọn
-		'select_district' => isset( $data_config['select_district'] ) ? $data_config['select_district'] : 0,
+		'select_districtid' => isset( $data_config['select_districtid'] ) ? $data_config['select_districtid'] : 0,
 		// Quốc gia cho phép
 		'allow_country' => isset( $data_config['allow_country'] ) ? $data_config['allow_country'] : '',
 		// Tỉnh cho phép
@@ -130,7 +137,11 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 	 	// Chọn nhiều Tỉnh
 		'multiple_province' => isset( $data_config['multiple_province'] ) ? $data_config['multiple_province'] : 0,
 		// Chọn nhiều Quận
-		'multiple_district' => isset( $data_config['multiple_district'] ) ? $data_config['multiple_district'] : 0
+		'multiple_district' => isset( $data_config['multiple_district'] ) ? $data_config['multiple_district'] : 0,
+		// Thêm dòng tiêu đề
+		'blank_title_country' => isset( $data_config['blank_title_country'] ) ? $data_config['blank_title_country'] : 0,
+		'blank_title_province' => isset( $data_config['blank_title_province'] ) ? $data_config['blank_title_province'] : 0,
+		'blank_title_district' => isset( $data_config['blank_title_district'] ) ? $data_config['blank_title_district'] : 0
 	);
 
 	$in = !empty( $data_config['allow_country'] ) ? ' AND countryid IN (' . $data_config['allow_country'] . ')' : '';
@@ -174,33 +185,60 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 		$result_district = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND provinceid=' . $first_province . $in . ' ORDER BY weight ASC' );
 		while( $row_district = $result_district->fetch() )
 		{
-			if( is_array( $data_config['select_district'] ) )
+			if( is_array( $data_config['select_districtid'] ) )
 			{
-				$row_district['selected'] = in_array( $row_district['districtid'], $data_config['select_district'] ) ? 'selected="selected"' : '';
+				$row_district['selected'] = in_array( $row_district['districtid'], $data_config['select_districtid'] ) ? 'selected="selected"' : '';
 			}
 			else
 			{
-				$row_district['selected'] = $data_config['select_district'] == $row_district['districtid'] ? 'selected="selected"' : '';
+				$row_district['selected'] = $data_config['select_districtid'] == $row_district['districtid'] ? 'selected="selected"' : '';
 			}
 			$array_district[$row_district['districtid']] = $row_district;
 		}
 	}
 
+	include NV_ROOTDIR . '/modules/location/language/admin_' . NV_LANG_INTERFACE . '.php';
+
 	$xtpl = new XTemplate( 'form_input.tpl', NV_ROOTDIR . '/themes/' . $template . '/modules/' . $site_mods[$module]['module_file'] );
 	$xtpl->assign( 'LANG', $lang_module );
+	$xtpl->assign( 'ALLOW_COUNTRY', $data_config['allow_country'] );
+	$xtpl->assign( 'ALLOW_PROVINCE', $data_config['allow_province'] );
+	$xtpl->assign( 'ALLOW_DISTRICT', $data_config['allow_district'] );
+	$xtpl->assign( 'IS_DISTRICT', $data_config['is_district'] );
+	$xtpl->assign( 'MULTIPLE_PROVINCE', $data_config['multiple_province'] );
+	$xtpl->assign( 'MULTIPLE_DISTRICT', $data_config['multiple_district'] );
+	$xtpl->assign( 'BLANK_TITLE_COUNTRY', $data_config['blank_title_country'] );
+	$xtpl->assign( 'BLANK_TITLE_PROVINCE', $data_config['blank_title_province'] );
+	$xtpl->assign( 'BLANK_TITLE_DISTRICT', $data_config['blank_title_district'] );
 
-	if( !empty( $array_country ) and $i > 1 )
+	if( !empty( $array_country ) )
 	{
-		foreach( $array_country as $country )
+		if( $i > 1 )
 		{
-			$xtpl->assign( 'COUNTRY', $country );
-			$xtpl->parse( 'form_input.country.loop' );
+			if( $data_config['blank_title_country'] )
+			{
+				$xtpl->parse( 'form_input.country.blank_title' );
+			}
+			foreach( $array_country as $country )
+			{
+				$xtpl->assign( 'COUNTRY', $country );
+				$xtpl->parse( 'form_input.country.loop' );
+			}
+			$xtpl->parse( 'form_input.country' );
 		}
-		$xtpl->parse( 'form_input.country' );
+		else
+		{
+			$xtpl->assign( 'COUNTRYID', $first_country );
+			$xtpl->parse( 'form_input.country_hidden' );
+		}
 	}
 
 	if( !empty( $array_province ) )
 	{
+		if( $data_config['blank_title_province'] )
+		{
+			$xtpl->parse( 'form_input.province.blank_title' );
+		}
 		foreach( $array_province as $province )
 		{
 			$xtpl->assign( 'PROVINCE', $province );
@@ -208,7 +246,6 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 		}
 		if( $data_config['multiple_province'] )
 		{
-			$xtpl->assign( 'MULTPLE', $data_config['multiple_province'] );
 			$xtpl->parse( 'form_input.province.multiple' );
 		}
 		else
@@ -220,6 +257,10 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 
 	if( !empty( $array_district ) )
 	{
+		if( $data_config['blank_title_district'] )
+		{
+			$xtpl->parse( 'form_input.district.blank_title' );
+		}
 		foreach( $array_district as $district )
 		{
 			$xtpl->assign( 'DISTRICT', $district );
@@ -227,7 +268,6 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 		}
 		if( $data_config['multiple_district'] )
 		{
-			$xtpl->assign( 'MULTPLE', $data_config['multiple_district'] );
 			$xtpl->parse( 'form_input.district.multiple' );
 		}
 		else
