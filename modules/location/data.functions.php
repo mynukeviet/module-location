@@ -136,7 +136,7 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 	$j = 0;
 	$first_province = $data_config['select_provinceid'];
 	$in = !empty( $data_config['allow_province'] ) ? ' AND provinceid IN (' . $data_config['allow_province'] . ')' : '';
-	$result_province = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_province WHERE status=1 AND countryid=' . $first_country . ' ORDER BY weight ASC' );
+	$result_province = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_province WHERE status=1 AND countryid=' . $first_country . $in . ' ORDER BY weight ASC' );
 	while( $row_province = $result_province->fetch() )
 	{
 		if( $j == 0 and empty( $first_province ) ) $first_province = $row_province['provinceid'];
@@ -156,7 +156,7 @@ function nv_location_build_input( $data_config = array(), $template = 'default',
 	if( $data_config['is_district'] )
 	{
 		$in = !empty( $data_config['allow_district'] ) ? ' AND districtid IN (' . $data_config['allow_district'] . ')' : '';
-		$result_district = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND provinceid=' . $first_province . ' ORDER BY weight ASC' );
+		$result_district = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND provinceid=' . $first_province . $in . ' ORDER BY weight ASC' );
 		while( $row_district = $result_district->fetch() )
 		{
 			if( is_array( $data_config['select_district'] ) )
