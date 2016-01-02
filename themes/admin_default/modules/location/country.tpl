@@ -86,7 +86,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.code}</strong></label>
+		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.country_code}</strong></label>
 		<div class="col-sm-19 col-md-20">
 			<input class="form-control" type="text" name="code" value="{ROW.code}" />
 		</div>

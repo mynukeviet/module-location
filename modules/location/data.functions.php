@@ -74,6 +74,8 @@ function nv_location_get_countryid_from_province( $provinceid, $module = 'locati
 {
 	global $db, $db_config, $site_mods;
 
+	if( empty( $provinceid ) ) return 0;
+
 	$countryid = $db->query( 'SELECT countryid FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_province WHERE provinceid=' . $provinceid )->fetchColumn();
 
 	return $countryid;
