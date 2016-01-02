@@ -64,6 +64,22 @@ function nv_location_get_province( $countryid, $module = 'location' )
 }
 
 /**
+ * nv_location_get_district()
+ *
+ * @param integer $districtid
+ * @param string $module
+ * @return
+ */
+function nv_location_get_district( $provinceid, $module = 'location' )
+{
+	global $db, $db_config, $site_mods;
+
+	$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND provinceid=' . $provinceid;
+	$array_district = nv_db_cache( $sql, 'districtid', $module );
+	return $array_district;
+}
+
+/**
  * nv_location_get_countryid_from_province()
  *
  * @param integer $provinceid

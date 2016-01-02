@@ -26,7 +26,7 @@
 		<table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
-					<th class="w100">{LANG.weight}</th>
+					<th class="w50 text-center">{LANG.number}</th>
 					<th>{LANG.title}</th>
 					<th class="w150">{LANG.province_code}</th>
 					<th class="w150">{LANG.type}</th>
@@ -44,17 +44,11 @@
 			<tbody>
 				<!-- BEGIN: loop -->
 				<tr>
-					<td>
-						<select class="form-control" id="id_weight_{VIEW.districtid}" onchange="nv_change_weight('{VIEW.districtid}', '{VIEW.provinceid}');">
-						<!-- BEGIN: weight_loop -->
-							<option value="{WEIGHT.key}"{WEIGHT.selected}>{WEIGHT.title}</option>
-						<!-- END: weight_loop -->
-					</select>
-				</td>
-					<td> <a href="{VIEW.link_ward}">{VIEW.title}</a> <span class="red">({VIEW.count})</span> </td>
+					<td class="text-center">{VIEW.number}</td>
+					<td> {VIEW.title} </td>
 					<td> {VIEW.code} </td>
 					<td> {VIEW.type} </td>
-					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.districtid}" value="{VIEW.districtid}" {CHECK} onclick="nv_change_status({VIEW.districtid});" /></td>
+					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.wardid}" value="{VIEW.wardid}" {CHECK} onclick="nv_change_status({VIEW.wardid});" /></td>
 					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}#form">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
 				</tr>
 				<!-- END: loop -->
@@ -71,8 +65,8 @@
 
 	<div class="panel panel-default">
 	<div class="panel-body">
-	<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&countryid={ROW.countryid}" method="post">
-		<input type="hidden" name="districtid" value="{ROW.districtid}" />
+	<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}&provinceid={ROW.provinceid}&wardid={ROW.wardid}" method="post">
+		<input type="hidden" name="wardid" value="{ROW.wardid}" />
 		<div class="form-group">
 			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
 			<div class="col-sm-19 col-md-20">
@@ -92,12 +86,12 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.province_c}</strong></label>
+			<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.district_cc}</strong></label>
 			<div class="col-sm-19 col-md-20">
-				<select name="provinceid" class="form-control">
-					<!-- BEGIN: province -->
-					<option value="{PROVINCE.provinceid}" {PROVINCE.selected}>{PROVINCE.title}</option>
-					<!-- END: province -->
+				<select name="districtid" class="form-control">
+					<!-- BEGIN: district -->
+					<option value="{DISTRICT.districtid}" {DISTRICT.selected}>{DISTRICT.type} {DISTRICT.title}</option>
+					<!-- END: district -->
 				</select>
 			</div>
 		</div>
@@ -129,7 +123,7 @@
 	function nv_get_alias(id) {
 		var title = strip_tags( $("[name='title']").val() );
 		if (title != '') {
-			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=district&nocache=' + new Date().getTime(), 'get_alias_title=' + encodeURIComponent(title), function(res) {
+			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=ward&nocache=' + new Date().getTime(), 'get_alias_title=' + encodeURIComponent(title), function(res) {
 				$("#"+id).val( strip_tags( res ) );
 			});
 		}
@@ -138,7 +132,7 @@
 	function nv_change_weight(id, provinceid) {
 		var nv_timer = nv_settimeout_disable('id_weight_' + id, 5000);
 		var new_vid = $('#id_weight_' + id).val();
-		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=district&nocache=' + new Date().getTime(), 'ajax_action=1&districtid=' + id + '&provinceid=' + provinceid + '&new_vid=' + new_vid, function(res) {
+		$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=ward&nocache=' + new Date().getTime(), 'ajax_action=1&wardid=' + id + '&provinceid=' + provinceid + '&new_vid=' + new_vid, function(res) {
 			var r_split = res.split('_');
 			if (r_split[0] != 'OK') {
 				alert(nv_is_change_act_confirm[2]);
@@ -152,7 +146,7 @@
 	function nv_change_status(id) {
 		var new_status = $('#change_status_' + id).is(':checked') ? true : false;
 		if (confirm(nv_is_change_act_confirm[0])) {
-			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=district&nocache=' + new Date().getTime(), 'change_status=1&districtid='+id, function(res) {
+			$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=ward&nocache=' + new Date().getTime(), 'change_status=1&wardid='+id, function(res) {
 				var r_split = res.split('_');
 				if (r_split[0] != 'OK') {
 					alert(nv_is_change_act_confirm[2]);

@@ -70,8 +70,9 @@ if( $nv_Request->isset_request( 'ajax_action', 'post' ) )
 
 if ( $nv_Request->isset_request( 'delete_districtid', 'get' ) and $nv_Request->isset_request( 'delete_checkss', 'get' ))
 {
-	$districtid = $nv_Request->get_title( 'delete_districtid', 'get' );
-	$provinceid = $nv_Request->get_title( 'provinceid', 'get' );
+	$districtid = $nv_Request->get_int( 'delete_districtid', 'get', 0 );
+	$provinceid = $nv_Request->get_int( 'provinceid', 'get', 0 );
+	$countryid = $nv_Request->get_int( 'countryid', 'get', 0 );
 	$delete_checkss = $nv_Request->get_string( 'delete_checkss', 'get' );
 	if( !empty( $districtid ) and $delete_checkss == md5( $districtid . NV_CACHE_PREFIX . $client_info['session_id'] ) )
 	{
@@ -92,7 +93,7 @@ if ( $nv_Request->isset_request( 'delete_districtid', 'get' ) and $nv_Request->i
 			}
 		}
 		nv_del_moduleCache( $module_name );
-		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&countryid=' . $countryid );
+		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&countryid=' . $countryid . '&provinceid=' . $provinceid );
 		die();
 	}
 }
@@ -148,7 +149,7 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 	}
 	elseif( empty( $row['provinceid'] ) )
 	{
-		$error[] = $lang_module['error_required_title'];
+		$error[] = $lang_module['error_required_districtid_provinceid'];
 	}
 
 	$count = $db->query( 'SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $db->quote( $row['districtid'] ) )->fetchColumn();
@@ -288,7 +289,7 @@ if( $show_view )
 	$number = $page > 1 ? ($per_page * ( $page - 1 ) ) + 1 : 1;
 	while( $view = $sth->fetch() )
 	{
-		$view['count'] = $db->query( 'SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $db->quote( $view['districtid'] ) )->fetchColumn();
+		$view['count'] = $db->query( 'SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_ward WHERE districtid=' . $view['districtid'] )->fetchColumn();
 		for( $i = 1; $i <= $num_items; ++$i )
 		{
 			$xtpl->assign( 'WEIGHT', array(
@@ -299,8 +300,8 @@ if( $show_view )
 		}
 		$xtpl->assign( 'CHECK', $view['status'] == 1 ? 'checked' : '' );
 		$view['link_edit'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $row['provinceid'] . '&amp;districtid=' . $view['districtid'];
-		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;provinceid=' . $row['provinceid'] . '&amp;delete_districtid=' . $view['districtid'] . '&amp;delete_checkss=' . md5( $view['districtid'] . NV_CACHE_PREFIX . $client_info['session_id'] );
-		$view['link_district'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=district&amp;districtid=' . $view['districtid'];
+		$view['link_delete'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;countryid=' . $row['countryid'] .'&amp;provinceid=' . $row['provinceid'] . '&amp;delete_districtid=' . $view['districtid'] . '&amp;delete_checkss=' . md5( $view['districtid'] . NV_CACHE_PREFIX . $client_info['session_id'] );
+		$view['link_ward'] = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=ward&amp;provinceid=' . $view['provinceid'] .'&amp;districtid=' . $view['districtid'];
 		$xtpl->assign( 'VIEW', $view );
 		$xtpl->parse( 'main.view.loop' );
 	}
