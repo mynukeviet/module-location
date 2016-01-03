@@ -56,5 +56,11 @@ $lang_module['location_note'] = 'Ví dụ: 21 02 08N, 105 49 38E';
 $lang_module['error_required_districtid'] = 'Lỗi: bạn cần nhập dữ liệu cho Mã Quận/Huyện';
 $lang_module['error_required_districtid_exist'] = 'Lỗi: Mã Quận/Huyện đã tồn tại';
 $lang_module['error_required_districtid_provinceid'] = 'Lỗi: bạn cần chọn Tỉnh/Thành phố';
+
+$lang_module['ward'] = 'Xã/Phường';
+$lang_module['ward_cc'] = 'Chọn Xã/Phường';
 $lang_module['error_required_ward_exist'] = 'Lỗi: Mã Xã/Phường đã tồn tại';
 $lang_module['error_required_districtid_districtid'] = 'Lỗi: bạn cần chọn Quận/Huyện';
+
+$lang_module['config_allow_type'] = 'Thêm loại';
+$lang_module['config_allow_type_note'] = 'Thêm loại địa điểm trước tên địa điểm';
