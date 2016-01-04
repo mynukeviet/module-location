@@ -10,6 +10,14 @@
 
 if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
+$location_array_config = array();
+$_sql = 'SELECT config_name, config_value FROM ' . $db_config['prefix'] . '_location_config';
+$_query = $db->query( $_sql );
+while( list( $config_name, $config_value ) = $_query->fetch( 3 ) )
+{
+	$location_array_config[$config_name] = $config_value;
+}
+
 $is_district = false;
 
 if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
@@ -130,6 +138,56 @@ function nv_location_get_district_info( $districtid, $module = 'location' )
 	$district_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND districtid=' . $districtid )->fetch();
 
 	return $district_info;
+}
+
+/**
+ * nv_location_get_ward_info()
+ *
+ * @param string $module
+ * @return
+ */
+function nv_location_get_ward_info( $wardid, $module = 'location' )
+{
+	global $db, $db_config, $site_mods;
+
+	$ward_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_ward WHERE status=1 AND wardid=' . $wardid )->fetch();
+
+	return $ward_info;
+}
+
+/**
+ * nv_location_make_string()
+ *
+ * @param int $provinceid
+ * @param int $districtid
+ * @param int $wardid
+ * @return
+ */
+function nv_location_make_string( $provinceid = 0, $districtid = 0, $wardid = 0 )
+{
+	global $db, $db_config, $site_mods, $location_array_config;
+
+	$string = '';
+
+	if( !empty( $wardid ) )
+	{
+		$ward_info = nv_location_get_ward_info( $wardid );
+		$string .= $ward_info['title'];
+	}
+
+	if( !empty( $districtid ) )
+	{
+		$district_info = nv_location_get_district_info( $districtid );
+		$string .= ', ' . $district_info['title'];
+	}
+
+	if( !empty( $provinceid ) )
+	{
+		$province_info = nv_location_get_province_info( $provinceid );
+		$string .= ', ' . $province_info['title'];
+	}
+
+	return $string;
 }
 
 /**

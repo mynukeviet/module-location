@@ -11,17 +11,9 @@
 if ( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) or ! defined( 'NV_IS_MODADMIN' ) ) die( 'Stop!!!' );
 
 define( 'NV_IS_FILE_ADMIN', true );
-
-$location_array_config = array();
-$_sql = 'SELECT config_name, config_value FROM ' . $db_config['prefix'] . '_' . $module_data . '_config';
-$_query = $db->query( $_sql );
-while( list( $config_name, $config_value ) = $_query->fetch( 3 ) )
-{
-	$location_array_config[$config_name] = $config_value;
-}
+require_once NV_ROOTDIR . '/modules/' . $module_file . '/data.functions.php';
 
 $allow_func = array( 'main', 'config', 'country', 'province', 'district', 'ward' );
-require_once NV_ROOTDIR . '/modules/' . $module_file . '/data.functions.php';
 
 /**
  * nv_location_delete_province()
