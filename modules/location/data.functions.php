@@ -118,9 +118,14 @@ function nv_location_get_countryid_from_province( $provinceid, $module = 'locati
  */
 function nv_location_get_province_info( $provinceid, $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $location_array_config;
 
 	$province_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_province WHERE status=1 AND provinceid=' . $provinceid )->fetch();
+
+	if( $location_array_config['allow_type'] and !empty( $province_info['type'] ) )
+	{
+		$province_info['title'] = $province_info['type'] . ' ' . $province_info['title'];
+	}
 
 	return $province_info;
 }
@@ -133,9 +138,14 @@ function nv_location_get_province_info( $provinceid, $module = 'location' )
  */
 function nv_location_get_district_info( $districtid, $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $location_array_config;
 
 	$district_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND districtid=' . $districtid )->fetch();
+
+	if( $location_array_config['allow_type'] and !empty( $district_info['type'] ) )
+	{
+		$district_info['title'] = $district_info['type'] . ' ' . $district_info['title'];
+	}
 
 	return $district_info;
 }
@@ -148,9 +158,14 @@ function nv_location_get_district_info( $districtid, $module = 'location' )
  */
 function nv_location_get_ward_info( $wardid, $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $location_array_config;
 
 	$ward_info = $db->query( 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_ward WHERE status=1 AND wardid=' . $wardid )->fetch();
+
+	if( $location_array_config['allow_type'] and !empty( $ward_info['type'] ) )
+	{
+		$ward_info['title'] = $ward_info['type'] . ' ' . $ward_info['title'];
+	}
 
 	return $ward_info;
 }
