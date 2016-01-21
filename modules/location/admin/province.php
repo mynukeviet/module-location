@@ -32,7 +32,7 @@ if( $nv_Request->isset_request( 'change_status', 'post, get' ) )
 		$db->query( $query );
 		$content = 'OK_' . $provinceid;
 	}
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( $module_name );
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $content;
 	include NV_ROOTDIR . '/includes/footer.php';
@@ -61,7 +61,7 @@ if( $nv_Request->isset_request( 'ajax_action', 'post' ) )
 		$db->query( $sql );
 		$content = 'OK_' . $provinceid;
 	}
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( $module_name );
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $content;
 	include NV_ROOTDIR . '/includes/footer.php';
@@ -91,7 +91,7 @@ if ( $nv_Request->isset_request( 'delete_provinceid', 'get' ) and $nv_Request->i
 				$db->query( 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_province SET weight=' . $weight . ' WHERE provinceid=' . intval( $provinceid ));
 			}
 		}
-		nv_del_moduleCache( $module_name );
+		$nv_Cache->delMod( $module_name );
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&countryid=' . $countryid );
 		die();
 	}
@@ -103,7 +103,7 @@ $row['provinceid'] = $nv_Request->get_int( 'provinceid', 'post,get', 0 );
 $row['countryid'] = $nv_Request->get_int( 'countryid', 'post,get', 0 );
 
 $sql = 'SELECT * FROM ' . $db_config['prefix'] . '_' . $module_data . '_country WHERE status=1';
-$array_country = nv_db_cache( $sql, 'countryid', $module_name );
+$array_country = $nv_Cache->db( $sql, 'countryid', $module_name );
 if( !isset( $array_country[$row['countryid']] ) )
 {
 	Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=country' );
@@ -175,7 +175,7 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			$exc = $stmt->execute();
 			if( $exc )
 			{
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 				Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&countryid=' . $row['countryid'] );
 				die();
 			}

@@ -53,10 +53,10 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
  */
 function nv_location_get_country( $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $nv_Cache;
 
 	$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_country WHERE status=1';
-	$array_country = nv_db_cache( $sql, 'countryid', $module );
+	$array_country = $nv_Cache->db( $sql, 'countryid', $module );
 	return $array_country;
 }
 
@@ -69,10 +69,10 @@ function nv_location_get_country( $module = 'location' )
  */
 function nv_location_get_province( $countryid, $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $nv_Cache;
 
 	$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_province WHERE status=1 AND countryid=' . $countryid;
-	$array_province = nv_db_cache( $sql, 'provinceid', $module );
+	$array_province = $nv_Cache->db( $sql, 'provinceid', $module );
 	return $array_province;
 }
 
@@ -85,10 +85,10 @@ function nv_location_get_province( $countryid, $module = 'location' )
  */
 function nv_location_get_district( $provinceid, $module = 'location' )
 {
-	global $db, $db_config, $site_mods;
+	global $db, $db_config, $site_mods, $nv_Cache;
 
 	$sql = 'SELECT * FROM ' . $db_config['prefix'] . '_' . $site_mods[$module]['module_data'] . '_district WHERE status=1 AND provinceid=' . $provinceid;
-	$array_district = nv_db_cache( $sql, 'districtid', $module );
+	$array_district = $nv_Cache->db( $sql, 'districtid', $module );
 	return $array_district;
 }
 

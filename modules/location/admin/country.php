@@ -32,7 +32,7 @@ if( $nv_Request->isset_request( 'change_status', 'post, get' ) )
 		$db->query( $query );
 		$content = 'OK_' . $countryid;
 	}
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( $module_name );
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $content;
 	include NV_ROOTDIR . '/includes/footer.php';
@@ -60,7 +60,7 @@ if( $nv_Request->isset_request( 'ajax_action', 'post' ) )
 		$db->query( $sql );
 		$content = 'OK_' . $countryid;
 	}
-	nv_del_moduleCache( $module_name );
+	$nv_Cache->delMod( $module_name );
 	include NV_ROOTDIR . '/includes/header.php';
 	echo $content;
 	include NV_ROOTDIR . '/includes/footer.php';
@@ -98,7 +98,7 @@ if ( $nv_Request->isset_request( 'delete_countryid', 'get' ) and $nv_Request->is
 			nv_location_delete_province( $provinceid );
 		}
 
-		nv_del_moduleCache( $module_name );
+		$nv_Cache->delMod( $module_name );
 		Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 		die();
 	}
@@ -165,7 +165,7 @@ if ( $nv_Request->isset_request( 'submit', 'post' ) )
 			$exc = $stmt->execute();
 			if( $exc )
 			{
-				nv_del_moduleCache( $module_name );
+				$nv_Cache->delMod( $module_name );
 				Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op );
 				die();
 			}
