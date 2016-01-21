@@ -38,3 +38,5 @@
 !/themes/default/modules/location
 !/themes/default/modules/location/*
 /.project
+/vendor/
+/composer.json
