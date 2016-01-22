@@ -24,9 +24,6 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 {
 	$data_config = array(
 		'select_countyid' => $nv_Request->get_int( 'select_countryid', 'post,get', 0 ),
-		'select_provinceid' => $nv_Request->get_int( 'select_provinceid', 'post,get', 0 ),
-		'select_districtid' => $nv_Request->get_int( 'select_districtid', 'post,get', 0 ),
-		'select_wardid' => $nv_Request->get_int( 'select_wardid', 'post,get', 0 ),
 		'allow_country' => $nv_Request->get_title( 'allow_country', 'post,get', '' ),
 		'allow_province' => $nv_Request->get_title( 'allow_province', 'post,get', '' ),
 		'allow_district' => $nv_Request->get_title( 'allow_district', 'post,get', '' ),
@@ -41,6 +38,10 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 		'blank_title_district' => $nv_Request->get_bool( 'blank_title_district', 'post,get', 0 ),
 		'blank_title_ward' => $nv_Request->get_bool( 'blank_title_ward', 'post,get', 0 )
 	);
+	$data_config['select_provinceid'] = $data_config['multiple_province'] ? $nv_Request->get_typed_array( 'select_provinceid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_provinceid', 'post,get', 0 );
+	$data_config['select_districtid'] = $data_config['multiple_district'] ? $nv_Request->get_typed_array( 'select_districtid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_districtid', 'post,get', 0 );
+	$data_config['select_wardid'] = $data_config['multiple_ward'] ? $nv_Request->get_typed_array( 'select_wardid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_wardid', 'post,get', 0 );
+
 	$location_html = nv_location_build_input( $data_config );
 	die( $location_html );
 }
