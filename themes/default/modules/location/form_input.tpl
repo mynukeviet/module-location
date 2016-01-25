@@ -24,7 +24,7 @@
 
 <div class="row">
     <!-- BEGIN: country -->
-    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom">
+    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom country">
         <select class="form-control" name="countryid" id="countryid">
             <!-- BEGIN: blank_title -->
             <option value="0">---{LANG.country_cc}---</option>
@@ -40,7 +40,7 @@
     <!-- END: country_hidden -->
 
     <!-- BEGIN: province -->
-    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom">
+    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom province">
         <select class="form-control" <!-- BEGIN: none_multiple -->name="provinceid"<!-- END: none_multiple --> id="provinceid" <!-- BEGIN: multiple -->name="provinceid[]" multiple="multiple"<!-- END: multiple --> >
             <!-- BEGIN: blank_title -->
             <option value="0">---{LANG.province_cc}---</option>
@@ -53,7 +53,7 @@
     <!-- END: province -->
 
     <!-- BEGIN: district -->
-    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom">
+    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom district">
         <select class="form-control" <!-- BEGIN: none_multiple -->name="districtid"<!-- END: none_multiple --> id="districtid" <!-- BEGIN: multiple -->name="districtid[]" multiple="multiple"<!-- END: multiple --> >
             <!-- BEGIN: blank_title -->
             <option value="0">---{LANG.district_cc}---</option>
@@ -66,7 +66,7 @@
     <!-- END: district -->
 
     <!-- BEGIN: ward -->
-    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom">
+    <div class="col-xs-24 col-sm-12 col-md-12 m-bottom ward">
         <select class="form-control" <!-- BEGIN: none_multiple -->name="wardid"<!-- END: none_multiple --> id="wardid" <!-- BEGIN: multiple -->name="wardid[]" multiple="multiple"<!-- END: multiple --> >
             <!-- BEGIN: blank_title -->
             <option value="0">---{LANG.ward_cc}---</option>
