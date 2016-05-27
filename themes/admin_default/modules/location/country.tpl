@@ -1,23 +1,21 @@
 <!-- BEGIN: main -->
 <!-- BEGIN: view -->
 <div class="well">
-<form action="{NV_BASE_ADMINURL}index.php" method="get">
-	<input type="hidden" name="{NV_LANG_VARIABLE}"  value="{NV_LANG_DATA}" />
-	<input type="hidden" name="{NV_NAME_VARIABLE}"  value="{MODULE_NAME}" />
-	<input type="hidden" name="{NV_OP_VARIABLE}"  value="{OP}" />
-	<div class="row">
-		<div class="col-xs-24 col-md-6">
-			<div class="form-group">
-				<input class="form-control" type="text" value="{Q}" name="q" maxlength="255" placeholder="{LANG.search_title}" />
+	<form action="{NV_BASE_ADMINURL}index.php" method="get">
+		<input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}" /> <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" /> <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
+		<div class="row">
+			<div class="col-xs-24 col-md-6">
+				<div class="form-group">
+					<input class="form-control" type="text" value="{Q}" name="q" maxlength="255" placeholder="{LANG.search_title}" />
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-3">
+				<div class="form-group">
+					<input class="btn btn-primary" type="submit" value="{LANG.search_submit}" />
+				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-md-3">
-			<div class="form-group">
-				<input class="btn btn-primary" type="submit" value="{LANG.search_submit}" />
-			</div>
-		</div>
-	</div>
-</form>
+	</form>
 </div>
 <form action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
 	<div class="table-responsive">
@@ -41,15 +39,13 @@
 			<tbody>
 				<!-- BEGIN: loop -->
 				<tr>
-					<td>
-						<select class="form-control" id="id_weight_{VIEW.countryid}" onchange="nv_change_weight('{VIEW.countryid}');">
-						<!-- BEGIN: weight_loop -->
+					<td><select class="form-control" id="id_weight_{VIEW.countryid}" onchange="nv_change_weight('{VIEW.countryid}');">
+							<!-- BEGIN: weight_loop -->
 							<option value="{WEIGHT.key}"{WEIGHT.selected}>{WEIGHT.title}</option>
-						<!-- END: weight_loop -->
-					</select>
-				</td>
-					<td> <a href="{VIEW.link_province}" title="{VIEW.title}">{VIEW.title}</a> <span class="red">({VIEW.count})</span> </td>
-					<td> {VIEW.code} </td>
+							<!-- END: weight_loop -->
+					</select></td>
+					<td><a href="{VIEW.link_province}" title="{VIEW.title}">{VIEW.title}</a> <span class="red">({VIEW.count})</span></td>
+					<td>{VIEW.code}</td>
 					<td class="text-center"><input type="checkbox" name="status" id="change_status_{VIEW.countryid}" value="{VIEW.countryid}" {CHECK} onclick="nv_change_status({VIEW.countryid});" /></td>
 					<td class="text-center"><i class="fa fa-edit fa-lg">&nbsp;</i> <a href="{VIEW.link_edit}">{LANG.edit}</a> - <em class="fa fa-trash-o fa-lg">&nbsp;</em> <a href="{VIEW.link_delete}" onclick="return confirm(nv_is_del_confirm[0]);">{LANG.delete}</a></td>
 				</tr>
@@ -64,36 +60,39 @@
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
 <div class="panel panel-default">
-<div class="panel-body">
-<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
-	<input type="hidden" name="countryid" value="{ROW.countryid}" />
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="title" value="{ROW.title}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.alias}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<div class="input-group">
-				<input class="form-control" type="text" name="alias" value="{ROW.alias}" id="id_alias" />
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button">
-						<i class="fa fa-refresh fa-lg" onclick="nv_get_alias('id_alias');">&nbsp;</i>
-					</button> </span>
+	<div class="panel-body">
+		<form class="form-horizontal" action="{NV_BASE_ADMINURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
+			<input type="hidden" name="countryid" value="{ROW.countryid}" />
+			<div class="form-group">
+				<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.title}</strong> <span class="red">(*)</span></label>
+				<div class="col-sm-19 col-md-20">
+					<input class="form-control" type="text" name="title" value="{ROW.title}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
+				</div>
 			</div>
-		</div>
+			<div class="form-group">
+				<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.alias}</strong></label>
+				<div class="col-sm-19 col-md-20">
+					<div class="input-group">
+						<input class="form-control" type="text" name="alias" value="{ROW.alias}" id="id_alias" /> <span class="input-group-btn">
+							<button class="btn btn-default" type="button">
+								<i class="fa fa-refresh fa-lg" onclick="nv_get_alias('id_alias');">&nbsp;</i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.country_code}</strong></label>
+				<div class="col-sm-19 col-md-20">
+					<input class="form-control" type="text" name="code" value="{ROW.code}" />
+				</div>
+			</div>
+			<div class="form-group" style="text-align: center">
+				<input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" />
+			</div>
+		</form>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-5 col-md-4 control-label"><strong>{LANG.country_code}</strong></label>
-		<div class="col-sm-19 col-md-20">
-			<input class="form-control" type="text" name="code" value="{ROW.code}" />
-		</div>
-	</div>
-	<div class="form-group" style="text-align: center"><input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" /></div>
-</form>
-</div></div>
+</div>
 
 <script type="text/javascript">
 //<![CDATA[

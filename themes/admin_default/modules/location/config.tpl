@@ -10,6 +10,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="text-center"><input type="submit" class="btn btn-primary" value="{LANG.save}" name="savesetting" /></div>
+	<div class="text-center">
+		<input type="submit" class="btn btn-primary" value="{LANG.save}" name="savesetting" />
+	</div>
 </form>
 <!-- BEGIN: main -->

@@ -28,15 +28,19 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 		'allow_province' => $nv_Request->get_title( 'allow_province', 'post,get', '' ),
 		'allow_district' => $nv_Request->get_title( 'allow_district', 'post,get', '' ),
 		'allow_ward' => $nv_Request->get_title( 'allow_ward', 'post,get', '' ),
-		'multiple_province' => $nv_Request->get_bool( 'multiple_province', 'post,get', 0 ),
-		'multiple_district' => $nv_Request->get_bool( 'multiple_district', 'post,get', 0 ),
-		'multiple_ward' => $nv_Request->get_bool( 'multiple_ward', 'post,get', 0 ),
-		'is_district' => $nv_Request->get_bool( 'is_district', 'post,get', 0 ),
-		'is_ward' => $nv_Request->get_bool( 'is_ward', 'post,get', 0 ),
-		'blank_title_country' => $nv_Request->get_bool( 'blank_title_country', 'post,get', 0 ),
-		'blank_title_province' => $nv_Request->get_bool( 'blank_title_province', 'post,get', 0 ),
-		'blank_title_district' => $nv_Request->get_bool( 'blank_title_district', 'post,get', 0 ),
-		'blank_title_ward' => $nv_Request->get_bool( 'blank_title_ward', 'post,get', 0 )
+		'multiple_province' => $nv_Request->get_int( 'multiple_province', 'post,get', 0 ),
+		'multiple_district' => $nv_Request->get_int( 'multiple_district', 'post,get', 0 ),
+		'multiple_ward' => $nv_Request->get_int( 'multiple_ward', 'post,get', 0 ),
+		'is_district' => $nv_Request->get_int( 'is_district', 'post,get', 0 ),
+		'is_ward' => $nv_Request->get_int( 'is_ward', 'post,get', 0 ),
+		'blank_title_country' => $nv_Request->get_int( 'blank_title_country', 'post,get', 0 ),
+		'blank_title_province' => $nv_Request->get_int( 'blank_title_province', 'post,get', 0 ),
+		'blank_title_district' => $nv_Request->get_int( 'blank_title_district', 'post,get', 0 ),
+		'blank_title_ward' => $nv_Request->get_int( 'blank_title_ward', 'post,get', 0 ),
+	    'name_country' => $nv_Request->get_title( 'name_country', 'post,get', 'countryid' ),
+	    'name_province' => $nv_Request->get_title( 'name_country', 'post,get', 'provinceid' ),
+	    'name_district' => $nv_Request->get_title( 'name_country', 'post,get', 'districtid' ),
+	    'name_ward' => $nv_Request->get_title( 'name_country', 'post,get', 'wardid' )
 	);
 	$data_config['select_provinceid'] = $data_config['multiple_province'] ? $nv_Request->get_typed_array( 'select_provinceid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_provinceid', 'post,get', 0 );
 	$data_config['select_districtid'] = $data_config['multiple_district'] ? $nv_Request->get_typed_array( 'select_districtid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_districtid', 'post,get', 0 );
@@ -212,42 +216,49 @@ function nv_location_make_string( $provinceid = 0, $districtid = 0, $wardid = 0 
  * @param string $module
  * @return
  */
-function nv_location_build_input( $data_config = array(), $template = 'default', $module = 'location' )
+function nv_location_build_input( $_data_config = array(), $template = 'default', $module = 'location' )
 {
 	global $db, $db_config, $site_mods, $global_config, $lang_module, $location_array_config;
 
 	$data_config = array(
 		// Quốc gia được chọn
-		'select_countyid' => isset( $data_config['select_countyid'] ) ? $data_config['select_countyid'] : 0,
+		'select_countyid' => isset( $_data_config['select_countyid'] ) ? $_data_config['select_countyid'] : 0,
 		// Tỉnh được chọn
-		'select_provinceid' => isset( $data_config['select_provinceid'] ) ? $data_config['select_provinceid'] : 0,
+		'select_provinceid' => isset( $_data_config['select_provinceid'] ) ? $_data_config['select_provinceid'] : 0,
 		// Quận/Huyện được chọn
-		'select_districtid' => isset( $data_config['select_districtid'] ) ? $data_config['select_districtid'] : 0,
+		'select_districtid' => isset( $_data_config['select_districtid'] ) ? $_data_config['select_districtid'] : 0,
 		// Xã/Phường được chọn
-		'select_wardid' => isset( $data_config['select_wardid'] ) ? $data_config['select_wardid'] : 0,
+		'select_wardid' => isset( $_data_config['select_wardid'] ) ? $_data_config['select_wardid'] : 0,
 		// Quốc gia cho phép
-		'allow_country' => isset( $data_config['allow_country'] ) ? $data_config['allow_country'] : '',
+		'allow_country' => isset( $_data_config['allow_country'] ) ? $_data_config['allow_country'] : '',
 		// Tỉnh cho phép
-		'allow_province' => isset( $data_config['allow_province'] ) ? $data_config['allow_province'] : '',
+		'allow_province' => isset( $_data_config['allow_province'] ) ? $_data_config['allow_province'] : '',
 		// Quận/Huyện cho phép
-		'allow_district' => isset( $data_config['allow_district'] ) ? $data_config['allow_district'] : '',
+		'allow_district' => isset( $_data_config['allow_district'] ) ? $_data_config['allow_district'] : '',
 		// Xã/Phường cho phép
-		'allow_ward' => isset( $data_config['allow_ward'] ) ? $data_config['allow_ward'] : '',
+		'allow_ward' => isset( $_data_config['allow_ward'] ) ? $_data_config['allow_ward'] : '',
 		// Sử dụng Cấp QUận/Huyện
-	 	'is_district' => isset( $data_config['is_district'] ) ? $data_config['is_district'] : false,
+	 	'is_district' => isset( $_data_config['is_district']) and !empty($_data_config['is_district'] ) ? $_data_config['is_district'] : false,
 		// Sử dụng Cấp Xã/Phường
-	 	'is_ward' => isset( $data_config['is_ward'] ) ? $data_config['is_ward'] : false,
+	 	'is_ward' => isset( $_data_config['is_ward'] ) ? $_data_config['is_ward'] : false,
 	 	// Chọn nhiều Tỉnh
-		'multiple_province' => isset( $data_config['multiple_province'] ) ? $data_config['multiple_province'] : 0,
+		'multiple_province' => isset( $_data_config['multiple_province'] ) ? $_data_config['multiple_province'] : 0,
 		// Chọn nhiều Quận/Huyện
-		'multiple_district' => isset( $data_config['multiple_district'] ) ? $data_config['multiple_district'] : 0,
+		'multiple_district' => isset( $_data_config['multiple_district'] ) ? $_data_config['multiple_district'] : 0,
 		// Chọn nhiều Xã/Phường
-		'multiple_ward' => isset( $data_config['multiple_ward'] ) ? $data_config['multiple_ward'] : 0,
+		'multiple_ward' => isset( $_data_config['multiple_ward'] ) ? $_data_config['multiple_ward'] : 0,
 		// Thêm dòng tiêu đề
-		'blank_title_country' => isset( $data_config['blank_title_country'] ) ? $data_config['blank_title_country'] : 0,
-		'blank_title_province' => isset( $data_config['blank_title_province'] ) ? $data_config['blank_title_province'] : 0,
-		'blank_title_district' => isset( $data_config['blank_title_district'] ) ? $data_config['blank_title_district'] : 0,
-		'blank_title_ward' => isset( $data_config['blank_title_ward'] ) ? $data_config['blank_title_ward'] : 0
+		'blank_title_country' => isset( $_data_config['blank_title_country'] ) ? $_data_config['blank_title_country'] : 0,
+		'blank_title_province' => isset( $_data_config['blank_title_province'] ) ? $_data_config['blank_title_province'] : 0,
+		'blank_title_district' => isset( $_data_config['blank_title_district'] ) ? $_data_config['blank_title_district'] : 0,
+		'blank_title_ward' => isset( $_data_config['blank_title_ward'] ) ? $_data_config['blank_title_ward'] : 0,
+	    // Thiết lập tên select name
+	    'name_country' => isset( $_data_config['name_country'] ) ? $_data_config['name_country'] : 'countryid',
+	    'name_province' => isset( $_data_config['name_province'] ) ? $_data_config['name_province'] : 'provinceid',
+	    'name_district' => isset( $_data_config['name_district'] ) ? $_data_config['name_district'] : 'districtid',
+	    'name_ward' => isset( $_data_config['name_ward'] ) ? $_data_config['name_ward'] : 'wardid',
+	    // su dung cho nhieu dia diem
+	    'index' => isset( $_data_config['index'] ) ? $_data_config['index'] : 0
 	);
 
 	$in = !empty( $data_config['allow_country'] ) ? ' AND countryid IN (' . $data_config['allow_country'] . ')' : '';
