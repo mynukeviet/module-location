@@ -23,7 +23,7 @@ $is_district = false;
 if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 {
 	$data_config = array(
-		'select_countyid' => $nv_Request->get_int( 'select_countryid', 'post,get', 0 ),
+		'select_countryid' => $nv_Request->get_int( 'select_countryid', 'post,get', 0 ),
 		'allow_country' => $nv_Request->get_title( 'allow_country', 'post,get', '' ),
 		'allow_province' => $nv_Request->get_title( 'allow_province', 'post,get', '' ),
 		'allow_district' => $nv_Request->get_title( 'allow_district', 'post,get', '' ),
@@ -38,9 +38,9 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 		'blank_title_district' => $nv_Request->get_int( 'blank_title_district', 'post,get', 0 ),
 		'blank_title_ward' => $nv_Request->get_int( 'blank_title_ward', 'post,get', 0 ),
 	    'name_country' => $nv_Request->get_title( 'name_country', 'post,get', 'countryid' ),
-	    'name_province' => $nv_Request->get_title( 'name_country', 'post,get', 'provinceid' ),
-	    'name_district' => $nv_Request->get_title( 'name_country', 'post,get', 'districtid' ),
-	    'name_ward' => $nv_Request->get_title( 'name_country', 'post,get', 'wardid' ),
+	    'name_province' => $nv_Request->get_title( 'name_province', 'post,get', 'provinceid' ),
+	    'name_district' => $nv_Request->get_title( 'name_district', 'post,get', 'districtid' ),
+	    'name_ward' => $nv_Request->get_title( 'name_ward', 'post,get', 'wardid' ),
 	    'index' => $nv_Request->get_int( 'index', 'post,get', 0 )
 	);
 	$data_config['select_provinceid'] = $data_config['multiple_province'] ? $nv_Request->get_typed_array( 'select_provinceid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_provinceid', 'post,get', 0 );
@@ -223,7 +223,7 @@ function nv_location_build_input( $_data_config = array(), $template = 'default'
 
 	$data_config = array(
 		// Quốc gia được chọn
-		'select_countyid' => isset( $_data_config['select_countyid'] ) ? $_data_config['select_countyid'] : 0,
+		'select_countryid' => isset( $_data_config['select_countryid'] ) ? $_data_config['select_countryid'] : 0,
 		// Tỉnh được chọn
 		'select_provinceid' => isset( $_data_config['select_provinceid'] ) ? $_data_config['select_provinceid'] : 0,
 		// Quận/Huyện được chọn
@@ -269,11 +269,12 @@ function nv_location_build_input( $_data_config = array(), $template = 'default'
 	$array_district = array();
 	$array_ward = array();
 	$i = 0;
-	$first_country = $data_config['select_countyid'];
+
+	$first_country = $data_config['select_countryid'];
 	while( $row_country = $result_country->fetch() )
 	{
 		if( $i == 0 and empty( $first_country ) ) $first_country = $row_country['countryid'];
-		$row_country['selected'] = $data_config['select_countyid'] == $row_country['countryid'] ? 'selected="selected"' : '';
+		$row_country['selected'] = $data_config['select_countryid'] == $row_country['countryid'] ? 'selected="selected"' : '';
 		$array_country[$row_country['countryid']] = $row_country;
 		$i++;
 	}
