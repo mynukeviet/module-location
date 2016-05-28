@@ -16,6 +16,7 @@
 <input type="hidden" id="name_province_{CONFIG.index}" value="{CONFIG.name_province}" />
 <input type="hidden" id="name_district_{CONFIG.index}" value="{CONFIG.name_district}" />
 <input type="hidden" id="name_ward_{CONFIG.index}" value="{CONFIG.name_ward}" />
+<input type="hidden" id="index_{CONFIG.index}" value="{CONFIG.index}" />
 
 <div id="form-input-{CONFIG.index}">{FORM_INPUT}</div>
 <!-- END: main -->
@@ -145,32 +146,35 @@ $(document).ready(function() {
     }
 });
 
-function nv_location_build_query(index){
-    var query = '';
-    query += 'location_reload=1';
-    query += '&select_countryid=' + $('#countryid-' + index).val();
-    query += '&select_provinceid=' + $('#provinceid-' + index).val();
-    query += '&select_districtid=' + $('#districtid-' + index).val();
-    query += '&select_wardid=' + $('#wardid-' + index).val();
-    query += '&multiple_province=' + $('#multiple_province_' + index).val();
-    query += '&multiple_district=' + $('#multiple_distric_' + index).val();
-    query += '&multiple_ward=' + $('#multiple_ward_' + index).val();
-    query += '&is_district=' + $('#is_distric_' + index).val();
-    query += '&is_ward=' + $('#is_ward_' + index).val();
-    query += '&allow_country=' + $('#allow_country_' + index).val();
-    query += '&allow_province=' + $('#allow_province_' + index).val();
-    query += '&allow_district=' + $('#allow_district_' + index).val();
-    query += '&allow_ward=' + $('#allow_ward_' + index).val();
-    query += '&blank_title_country=' + $('#blank_title_country_' + index).val();
-    query += '&blank_title_province=' + $('#blank_title_province_' + index).val();
-    query += '&blank_title_district=' + $('#blank_title_district_' + index).val();
-    query += '&blank_title_ward=' + $('#blank_title_ward_' + index).val();
-    query += '&name_country=' + $('#name_country_' + index).val();
-    query += '&name_province=' + $('#name_province_' + index).val();
-    query += '&name_district=' + $('#name_district_' + index).val();
-    query += '&name_ward=' + $('#name_ward_{CONFIG.index}').val();
+if (typeof nv_location_build_query != 'function'){
+	function nv_location_build_query(index){
+	    var query = '';
+	    query += 'location_reload=1';
+	    query += '&select_countryid=' + $('#countryid-' + index).val();
+	    query += '&select_provinceid=' + $('#provinceid-' + index).val();
+	    query += '&select_districtid=' + $('#districtid-' + index).val();
+	    query += '&select_wardid=' + $('#wardid-' + index).val();
+	    query += '&multiple_province=' + $('#multiple_province_' + index).val();
+	    query += '&multiple_district=' + $('#multiple_distric_' + index).val();
+	    query += '&multiple_ward=' + $('#multiple_ward_' + index).val();
+	    query += '&is_district=' + $('#is_distric_' + index).val();
+	    query += '&is_ward=' + $('#is_ward_' + index).val();
+	    query += '&allow_country=' + $('#allow_country_' + index).val();
+	    query += '&allow_province=' + $('#allow_province_' + index).val();
+	    query += '&allow_district=' + $('#allow_district_' + index).val();
+	    query += '&allow_ward=' + $('#allow_ward_' + index).val();
+	    query += '&blank_title_country=' + $('#blank_title_country_' + index).val();
+	    query += '&blank_title_province=' + $('#blank_title_province_' + index).val();
+	    query += '&blank_title_district=' + $('#blank_title_district_' + index).val();
+	    query += '&blank_title_ward=' + $('#blank_title_ward_' + index).val();
+	    query += '&name_country=' + $('#name_country_' + index).val();
+	    query += '&name_province=' + $('#name_province_' + index).val();
+	    query += '&name_district=' + $('#name_district_' + index).val();
+	    query += '&name_ward=' + $('#name_ward_' + index).val();
+	    query += '&index=' + $('#index_' + index).val();
 
-    return query;
+	    return query;
+	}	
 }
 </script>
 <!-- END: form_input -->
