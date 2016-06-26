@@ -17,6 +17,7 @@
 <input type="hidden" id="name_district_{CONFIG.index}" value="{CONFIG.name_district}" />
 <input type="hidden" id="name_ward_{CONFIG.index}" value="{CONFIG.name_ward}" />
 <input type="hidden" id="index_{CONFIG.index}" value="{CONFIG.index}" />
+<input type="hidden" id="col_class_{CONFIG.index}" value="{CONFIG.col_class}" />
 
 <div id="form-input-{CONFIG.index}">{FORM_INPUT}</div>
 <!-- END: main -->
@@ -27,7 +28,7 @@
 
 <div class="row location-row">
 	<!-- BEGIN: country -->
-	<div class="col-xs-24 col-sm-12 col-md-12 m-bottom country">
+	<div class="{CONFIG.col_class} m-bottom country">
 		<select class="form-control" name="{CONFIG.name_country}" id="countryid-{CONFIG.index}">
 			<!-- BEGIN: blank_title -->
 			<option value="0">---{LANG.country_cc}---</option>
@@ -43,7 +44,7 @@
 	<!-- END: country_hidden -->
 
 	<!-- BEGIN: province -->
-	<div class="col-xs-24 col-sm-12 col-md-12 m-bottom province">
+	<div class="{CONFIG.col_class} m-bottom province">
 		<select class="form-control"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_province}"
 			<!-- END: none_multiple --> id="provinceid-{CONFIG.index}"
@@ -62,7 +63,7 @@
 	<!-- END: province -->
 
 	<!-- BEGIN: district -->
-	<div class="col-xs-24 col-sm-12 col-md-12 m-bottom district">
+	<div class="{CONFIG.col_class} m-bottom district">
 		<select class="form-control"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_district}"
 			<!-- END: none_multiple --> id="districtid-{CONFIG.index}"
@@ -81,7 +82,7 @@
 	<!-- END: district -->
 
 	<!-- BEGIN: ward -->
-	<div class="col-xs-24 col-sm-12 col-md-12 m-bottom ward">
+	<div class="{CONFIG.col_class} m-bottom ward">
 		<select class="form-control"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_ward}"
 			<!-- END: none_multiple --> id="wardid-{CONFIG.index}"
@@ -172,6 +173,7 @@ if (typeof nv_location_build_query != 'function'){
 	    query += '&name_district=' + $('#name_district_' + index).val();
 	    query += '&name_ward=' + $('#name_ward_' + index).val();
 	    query += '&index=' + $('#index_' + index).val();
+	    query += '&col_class=' + $('#col_class_' + index).val();
 
 	    return query;
 	}	

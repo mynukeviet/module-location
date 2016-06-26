@@ -41,7 +41,8 @@ if( $nv_Request->isset_request( 'location_reload', 'post,get' ) )
 	    'name_province' => $nv_Request->get_title( 'name_province', 'post,get', 'provinceid' ),
 	    'name_district' => $nv_Request->get_title( 'name_district', 'post,get', 'districtid' ),
 	    'name_ward' => $nv_Request->get_title( 'name_ward', 'post,get', 'wardid' ),
-	    'index' => $nv_Request->get_int( 'index', 'post,get', 0 )
+	    'index' => $nv_Request->get_int( 'index', 'post,get', 0 ),
+	    'col_class' => $nv_Request->get_title( 'col_class', 'post,get', 'col-xs-24 col-sm-12 col-md-12' )
 	);
 	$data_config['select_provinceid'] = $data_config['multiple_province'] ? $nv_Request->get_typed_array( 'select_provinceid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_provinceid', 'post,get', 0 );
 	$data_config['select_districtid'] = $data_config['multiple_district'] ? $nv_Request->get_typed_array( 'select_districtid', 'post,get', 'int' ) : $nv_Request->get_int( 'select_districtid', 'post,get', 0 );
@@ -259,7 +260,8 @@ function nv_location_build_input( $_data_config = array(), $template = 'default'
 	    'name_district' => isset( $_data_config['name_district'] ) ? $_data_config['name_district'] : 'districtid',
 	    'name_ward' => isset( $_data_config['name_ward'] ) ? $_data_config['name_ward'] : 'wardid',
 	    // su dung cho nhieu dia diem
-	    'index' => isset( $_data_config['index'] ) ? $_data_config['index'] : 1
+	    'index' => isset( $_data_config['index'] ) ? $_data_config['index'] : 1,
+	    'col_class' => isset( $_data_config['col_class'] ) ? $_data_config['col_class'] : 'col-xs-24 col-sm-12 col-md-12'
 	);
 
 	$in = !empty( $data_config['allow_country'] ) ? ' AND countryid IN (' . $data_config['allow_country'] . ')' : '';

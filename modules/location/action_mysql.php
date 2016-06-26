@@ -58,8 +58,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
   type varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (provinceid),
-  UNIQUE KEY provinceid (code,countryid)
+  PRIMARY KEY (provinceid)
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_ward(
