@@ -158,7 +158,7 @@ if (typeof nv_location_build_query != 'function'){
 	    query += '&multiple_province=' + $('#multiple_province_' + index).val();
 	    query += '&multiple_district=' + $('#multiple_distric_' + index).val();
 	    query += '&multiple_ward=' + $('#multiple_ward_' + index).val();
-	    query += '&is_district=' + $('#is_distric_' + index).val();
+	    query += '&is_district=' + $('#is_district_' + index).val();
 	    query += '&is_ward=' + $('#is_ward_' + index).val();
 	    query += '&allow_country=' + $('#allow_country_' + index).val();
 	    query += '&allow_province=' + $('#allow_province_' + index).val();
