@@ -7,7 +7,7 @@
  * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
  * @Createdate Wed, 16 Dec 2015 07:05:25 GMT
  */
-
-if ( ! defined( 'NV_ADMIN' ) ) die( 'Stop!!!' );
+if (! defined('NV_ADMIN'))
+    die('Stop!!!');
 
 $submenu['config'] = $lang_module['config'];

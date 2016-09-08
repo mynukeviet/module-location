@@ -7,8 +7,8 @@
  * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
  * @Createdate Wed, 16 Dec 2015 07:05:25 GMT
  */
-
-if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_MAINFILE'))
+    die('Stop!!!');
 
 $lang_translator['author'] = 'hongoctrien (hongoctrien@2mit.org)';
 $lang_translator['createdate'] = '16/12/2015, 07:05';
@@ -31,7 +31,7 @@ $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['status'] = 'Kích họat';
 $lang_module['type'] = 'Loại';
 
-//Lang for function country
+// Lang for function country
 $lang_module['country'] = 'Quốc gia';
 $lang_module['country_c'] = 'Thuộc quốc gia';
 $lang_module['country_cc'] = 'Chọn quốc gia';

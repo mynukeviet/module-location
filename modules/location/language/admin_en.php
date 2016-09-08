@@ -7,8 +7,8 @@
  * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
  * @Createdate Wed, 16 Dec 2015 07:05:25 GMT
  */
-
-if ( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
+if (! defined('NV_MAINFILE'))
+    die('Stop!!!');
 
 $lang_translator['author'] = 'hongoctrien (hongoctrien@2mit.org)';
 $lang_translator['createdate'] = '16/12/2015, 07:05';
@@ -20,7 +20,7 @@ $lang_module['main'] = 'Main';
 $lang_module['config'] = 'Config';
 $lang_module['save'] = 'Save';
 
-//Lang for function country
+// Lang for function country
 $lang_module['country'] = 'country';
 $lang_module['edit'] = 'edit';
 $lang_module['delete'] = 'Delete';
@@ -35,6 +35,6 @@ $lang_module['status'] = 'Status';
 $lang_module['error_required_countryid'] = 'Error: Required fields enter the Countryid';
 $lang_module['error_required_name'] = 'Error: Required fields enter the Name';
 
-//Lang for function country
+// Lang for function country
 $lang_module['title'] = 'Title';
 $lang_module['error_required_title'] = 'Error: Required fields enter the Title';
