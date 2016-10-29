@@ -93,8 +93,6 @@ class Location
             $this->setMultipleWard($value);
         } elseif ($key == 'IsDistrict') {
             $this->setIsDistrict($value);
-        } elseif ($key == 'IsDistrict') {
-            $this->setIsWard($value);
         } elseif ($key == 'IsWard') {
             $this->setIsWard($value);
         } elseif ($key == 'BlankTitleCountry') {
