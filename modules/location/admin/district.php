@@ -95,13 +95,14 @@ $row['districtid'] = $nv_Request->get_int('districtid', 'post,get', 0);
 $row['countryid'] = $nv_Request->get_int('countryid', 'post,get', 0);
 $row['provinceid'] = $nv_Request->get_int('provinceid', 'post,get', 0);
 
-$array_country = nv_location_get_country();
+$location = new Location();
+$array_country = $location->getArrayCountry();
 if (! isset($array_country[$row['countryid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=country');
     die();
 }
 
-$array_province = nv_location_get_province($row['countryid']);
+$array_province = $location->getArrayProvince(array($row['countryid']));
 if (! isset($array_province[$row['provinceid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=province');
     die();

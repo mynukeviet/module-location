@@ -9,7 +9,7 @@ if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE') or ! defined('NV_IS_MODADM
     die('Stop!!!');
 
 define('NV_IS_FILE_ADMIN', true);
-require_once NV_ROOTDIR . '/modules/' . $module_file . '/data.functions.php';
+require_once NV_ROOTDIR . '/modules/' . $module_file . '/location.class.php';
 
 $allow_func = array(
     'main',
