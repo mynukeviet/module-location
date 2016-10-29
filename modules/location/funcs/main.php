@@ -7,7 +7,6 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate 12-11-2010 20:40
  */
-
 if (! defined('NV_IS_MOD_LOCATION')) {
     die('Stop!!!');
 }
@@ -40,12 +39,12 @@ if ($nv_Request->isset_request('location_reload', 'post,get')) {
     $data_config['select_districtid'] = $nv_Request->get_title('select_districtid', 'post,get', '');
     $data_config['select_wardid'] = $nv_Request->get_title('select_wardid', 'post,get', '');
     
-    if($data_config['multiple_province']){
+    if ($data_config['multiple_province']) {
         $data_config['select_provinceid'] = explode(',', $data_config['select_provinceid']);
         $data_config['select_districtid'] = explode(',', $data_config['select_districtid']);
         $data_config['select_wardid'] = explode(',', $data_config['select_wardid']);
     }
-
+    
     $location = new Location();
     $location->set('SelectCountryid', $data_config['select_countryid']);
     $location->set('SelectProvinceid', $data_config['select_provinceid']);
@@ -70,6 +69,6 @@ if ($nv_Request->isset_request('location_reload', 'post,get')) {
     $location->set('NameWard', $data_config['name_ward']);
     $location->set('Index', $data_config['index']);
     $location->set('ColClass', $data_config['col_class']);
-
+    
     die($location->buildInput());
 }

@@ -2,10 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author hongoctrien (hongoctrien@2mit.org)
- * @Copyright (C) 2015 hongoctrien. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
- * @Createdate Wed, 16 Dec 2015 07:05:25 GMT
+ * @Author mynukeviet (contact@mynukeviet.net)
+ * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
 if (! defined('NV_MAINFILE'))
     die('Stop!!!');
@@ -17,9 +15,9 @@ $module_version = array(
     'submenu' => '',
     'is_sysmod' => 0,
     'virtual' => 0,
-    'version' => '4.0.24',
+    'version' => '1.0.00',
     'date' => 'Wed, 16 Dec 2015 07:05:25 GMT',
-    'author' => 'hongoctrien (hongoctrien@2mit.org)',
+    'author' => 'mynukeviet (contact@mynukeviet.net)',
     'uploads_dir' => array(
         $module_name
     ),

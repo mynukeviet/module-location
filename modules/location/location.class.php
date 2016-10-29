@@ -2,10 +2,8 @@
 
 /**
  * @Project NUKEVIET 4.x
- * @Author hongoctrien (hongoctrien@2mit.org)
- * @Copyright (C) 2015 hongoctrien. All rights reserved
- * @License: Not free read more http://nukeviet.vn/vi/store/modules/nvtools/
- * @Createdate Wed, 16 Dec 2015 07:05:25 GMT
+ * @Author mynukeviet (contact@mynukeviet.net)
+ * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
 class Location
 {
@@ -131,12 +129,12 @@ class Location
     {
         $this->select_provinceid = $select_provinceid;
     }
-    
+
     private function setSelectDistrictid($select_districtid)
     {
         $this->select_districtid = $select_districtid;
     }
-    
+
     private function setSelectWardid($select_wardid)
     {
         $this->select_wardid = $select_wardid;
@@ -262,9 +260,9 @@ class Location
         }
         
         if (! empty($countryid)) {
-            if(is_array($countryid)){
+            if (is_array($countryid)) {
                 $where .= ' AND countryid IN (' . implode(',', $countryid) . ')';
-            }else{
+            } else {
                 $where .= ' AND countryid=' . $countryid;
             }
         }
@@ -285,13 +283,13 @@ class Location
         }
         
         if (! empty($provinceid)) {
-            if(is_array($provinceid)){
+            if (is_array($provinceid)) {
                 $where .= ' AND provinceid IN (' . implode(',', $provinceid) . ')';
-            }else{
+            } else {
                 $where .= ' AND provinceid=' . $provinceid;
             }
         }
-
+        
         $sql = 'SELECT * FROM ' . $db_config['prefix'] . '_location_district WHERE status=1 ' . $where . ' ORDER BY weight ASC';
         $array_district = $nv_Cache->db($sql, 'districtid', 'location');
         
@@ -308,9 +306,9 @@ class Location
         }
         
         if (! empty($districtid)) {
-            if(is_array($districtid)){
+            if (is_array($districtid)) {
                 $where .= ' AND districtid IN (' . implode(',', $districtid) . ')';
-            }else{
+            } else {
                 $where .= ' AND districtid=' . $districtid;
             }
         }
@@ -404,7 +402,7 @@ class Location
             $j ++;
         }
         
-        if ($this->is_district and !$this->multiple_province) {
+        if ($this->is_district and ! $this->multiple_province) {
             $j = 0;
             $first_district = $this->select_districtid;
             $allow_district = ! empty($this->allow_district) ? array(
@@ -417,7 +415,7 @@ class Location
                 }
             }
             
-            if ($this->is_ward and !$this->multiple_district) {
+            if ($this->is_ward and ! $this->multiple_district) {
                 $allow_ward = ! empty($this->allow_ward) ? array(
                     $this->allow_ward
                 ) : array();
