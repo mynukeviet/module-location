@@ -12,7 +12,7 @@ if (! defined('NV_MAINFILE'))
 
 $module_version = array(
     'name' => 'Location',
-    'modfuncs' => '',
+    'modfuncs' => 'main',
     'change_alias' => '',
     'submenu' => '',
     'is_sysmod' => 0,

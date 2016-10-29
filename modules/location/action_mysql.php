@@ -19,16 +19,16 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $mod
 
 $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_config(
-  config_name varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  config_value varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  config_name varchar(30) NOT NULL,
+  config_value varchar(255) NOT NULL,
   UNIQUE KEY config_name (config_name)
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_country(
   countryid smallint(4) unsigned NOT NULL AUTO_INCREMENT,
-  code varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  title varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  alias varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  code varchar(10) NOT NULL,
+  title varchar(255) NOT NULL,
+  alias varchar(255) NOT NULL,
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (countryid),
@@ -37,12 +37,12 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_district(
   districtid mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  code varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
-  provinceid varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
-  title varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  alias varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  type varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  location varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  code varchar(5) NOT NULL,
+  provinceid varchar(5) NOT NULL,
+  title varchar(100) NOT NULL,
+  alias varchar(100) NOT NULL,
+  type varchar(30) NOT NULL,
+  location varchar(30) NOT NULL,
   weight mediumint(8) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (districtid),
@@ -51,11 +51,11 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_province(
   provinceid mediumint(4) unsigned NOT NULL AUTO_INCREMENT,
-  code varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
-  countryid varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  title varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  alias varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  type varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  code varchar(5) NOT NULL,
+  countryid varchar(10) NOT NULL,
+  title varchar(100) NOT NULL,
+  alias varchar(100) NOT NULL,
+  type varchar(30) NOT NULL,
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (provinceid)

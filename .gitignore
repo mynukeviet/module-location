@@ -40,3 +40,5 @@
 /.project
 /vendor/
 /composer.json
+/.settings/
+/.buildpath

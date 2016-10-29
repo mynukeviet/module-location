@@ -112,7 +112,7 @@ $(document).ready(function() {
     $('#countryid-{CONFIG.index}').change(function(){
         $(this).val() != 0 && $.ajax({
             method: 'POST',
-            url : window.location.href,
+            url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
             data : nv_location_build_query({CONFIG.index}),
             success : function( res ){
                 $('#form-input-{CONFIG.index}').html( res );
@@ -124,7 +124,7 @@ $(document).ready(function() {
         $('#provinceid-{CONFIG.index}').change(function(){
             $(this).val() != 0 && $.ajax({
                 method: 'POST',
-                url : window.location.href,
+                url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
                 data : nv_location_build_query({CONFIG.index}),
                 success : function( res ){
                     $('#form-input-{CONFIG.index}').html( res );
@@ -137,7 +137,7 @@ $(document).ready(function() {
         $('#districtid-{CONFIG.index}').change(function(){
             $(this).val() != 0 && $.ajax({
                 method: 'POST',
-                url : window.location.href,
+                url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
                 data : nv_location_build_query({CONFIG.index}),
                 success : function( res ){
                     $('#form-input-{CONFIG.index}').html( res );
