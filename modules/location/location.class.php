@@ -54,19 +54,6 @@ class Location
 
     private $col_class = 'col-xs-24 col-sm-12 col-md-12';
 
-    public function getConfig()
-    {
-        global $db, $db_config;
-        
-        $location_array_config = array();
-        $_query = $db->query('SELECT config_name, config_value FROM ' . $db_config['prefix'] . '_location_config');
-        while (list ($config_name, $config_value) = $_query->fetch(3)) {
-            $location_array_config[$config_name] = $config_value;
-        }
-        
-        return $location_array_config;
-    }
-
     public function set($key, $value)
     {
         if ($key == 'SelectCountryid') {
@@ -343,9 +330,9 @@ class Location
 
     public function locationString($provinceid = 0, $districtid = 0, $wardid = 0)
     {
-        global $db, $db_config, $site_mods;
+        global $db, $db_config, $site_mods, $module_config;
         
-        $location_array_config = $this->getConfig();
+        $location_array_config = $module_config['location'];
         $string = array();
         
         if (! empty($wardid)) {
@@ -368,11 +355,11 @@ class Location
 
     public function buildInput($template = 'default', $module = 'location')
     {
-        global $db, $db_config, $site_mods, $global_config, $lang_module;
+        global $db, $db_config, $site_mods, $global_config, $lang_module, $module_config;
         
         $array_country = $array_province = $array_district = $array_ward = array();
         
-        $location_array_config = $this->getConfig();
+        $location_array_config = $module_config['location'];
         
         $i = 0;
         $first_country = $this->select_countryid;

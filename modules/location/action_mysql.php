@@ -9,19 +9,12 @@ if (! defined('NV_IS_FILE_MODULES'))
     die('Stop!!!');
 
 $sql_drop_module = array();
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_config";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_country";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_district";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_province";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $module_data . "_ward";
 
 $sql_create_module = $sql_drop_module;
-$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_config(
-  config_name varchar(30) NOT NULL,
-  config_value varchar(255) NOT NULL,
-  UNIQUE KEY config_name (config_name)
-) ENGINE=MyISAM";
-
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_country(
   countryid smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   code varchar(10) NOT NULL,
@@ -74,4 +67,9 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
   KEY districtid (districtid)
 ) ENGINE=MyISAM";
 
-$sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $module_data . "_config (config_name, config_value) VALUES('allow_type', '0')";
+$data = array();
+$data['allow_type'] = 1;
+
+foreach ($data as $config_name => $config_value) {
+    $sql_create_module[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', " . $db->quote($module_name) . ", " . $db->quote($config_name) . ", " . $db->quote($config_value) . ")";
+}

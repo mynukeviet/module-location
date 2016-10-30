@@ -13,24 +13,25 @@ if (! defined('NV_IS_FILE_ADMIN'))
 $page_title = $lang_module['config'];
 
 $data = array();
+$location_array_config = $module_config[$module_name];
+
 if ($nv_Request->isset_request('savesetting', 'post')) {
     $data['allow_type'] = $nv_Request->get_int('allow_type', 'post', 0);
     
-    $sth = $db->prepare("UPDATE " . $db_config['prefix'] . '_' . $module_data . "_config SET config_value = :config_value WHERE config_name = :config_name");
+    $sth = $db->prepare("UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name");
+    $sth->bindParam(':module_name', $module_name, PDO::PARAM_STR);
     foreach ($data as $config_name => $config_value) {
-        $sth->bindParam(':config_name', $config_name, PDO::PARAM_STR, 30);
+        $sth->bindParam(':config_name', $config_name, PDO::PARAM_STR);
         $sth->bindParam(':config_value', $config_value, PDO::PARAM_STR);
         $sth->execute();
     }
     
     nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['config'], "Config", $admin_info['userid']);
-    $nv_Cache->delMod($module_name);
+    $nv_Cache->delMod('settings');
     
     Header("Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . '=' . $op);
     die();
 }
-
-$data['imgposition'] = 0;
 
 $xtpl = new XTemplate($op . ".tpl", NV_ROOTDIR . "/themes/" . $global_config['module_theme'] . "/modules/" . $module_file);
 $xtpl->assign('LANG', $lang_module);
