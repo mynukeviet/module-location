@@ -307,28 +307,32 @@ class Location
     public function getCountryInfo($countryid)
     {
         $array = $this->getArrayCountry();
+        $return = isset($array[$countryid]) ? $array[$countryid] : array();
         return $array[$countryid];
     }
 
     public function getProvinceInfo($provinceid)
     {
         $array = $this->getArrayProvince();
+        $return = isset($array[$provinceid]) ? $array[$provinceid] : array();
         return $array[$provinceid];
     }
 
     public function getDistricInfo($districtid)
     {
         $array = $this->getArrayDistrict();
-        return $array[$districtid];
+        $return = isset($array[$districtid]) ? $array[$districtid] : array();
+        return $return;
     }
 
     public function getWardInfo($wardid)
     {
         $array = $this->getArrayWard();
-        return $array[$wardid];
+        $return = isset($array[$wardid]) ? $array[$wardid] : array();
+        return $return;
     }
 
-    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0)
+    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ', ')
     {
         global $db, $db_config, $site_mods, $module_config;
         
@@ -350,7 +354,7 @@ class Location
             $string[] = $province_info['title'];
         }
         
-        return implode(', ', $string);
+        return implode($caret, $string);
     }
 
     public function buildInput($template = 'default', $module = 'location')
