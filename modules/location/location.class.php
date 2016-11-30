@@ -332,26 +332,26 @@ class Location
         return $return;
     }
 
-    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ', ')
+    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ', ', $module_url = '')
     {
-        global $db, $db_config, $site_mods, $module_config;
+        global $module_config;
         
         $location_array_config = $module_config['location'];
         $string = array();
         
         if (! empty($wardid)) {
             $ward_info = $this->getWardInfo($wardid);
-            $string[] = $ward_info['title'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/w/' . change_alias($ward_info['title']) . '-' . $ward_info['wardid'] . '" title="' . $ward_info['title'] . '">' . $ward_info['title'] . '</a>' : $ward_info['title'];
         }
         
         if (! empty($districtid)) {
             $district_info = $this->getDistricInfo($districtid);
-            $string[] = $district_info['title'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/d/' . change_alias($district_info['title']) . '-' . $district_info['districtid'] . '" title="' . $district_info['title'] . '">' . $district_info['title'] . '</a>' : $district_info['title'];
         }
         
         if (! empty($provinceid)) {
             $province_info = $this->getProvinceInfo($provinceid);
-            $string[] = $province_info['title'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/p/' . change_alias($province_info['title']) . '-' . $province_info['provinceid'] . '" title="' . $province_info['title'] . '">' . $province_info['title'] . '</a>' : $province_info['title'];
         }
         
         return implode($caret, $string);
