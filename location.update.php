@@ -27,6 +27,10 @@ while (list ($lang) = $language_query->fetch(3)) {
         $_sql[] = "DROP TABLE " . $db_config['prefix'] . "_" . $mod_data . "_config";
         
         $_sql[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', '" . $mod . "', 'allow_type', '1');";
+        
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $mod_data . "_country DROP INDEX countryid;";
+        
+        $_sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $mod_data . "_ward DROP INDEX code;";
 
         if (! empty($_sql)) {
             foreach ($_sql as $sql) {

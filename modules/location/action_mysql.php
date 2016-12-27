@@ -22,8 +22,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
   alias varchar(255) NOT NULL,
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (countryid),
-  UNIQUE KEY countryid (code)
+  PRIMARY KEY (countryid)
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_data . "_district(
@@ -63,7 +62,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $module_da
   status tinyint(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (wardid),
   UNIQUE KEY alias (alias),
-  UNIQUE KEY code (code),
   KEY districtid (districtid)
 ) ENGINE=MyISAM";
 
