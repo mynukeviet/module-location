@@ -102,7 +102,7 @@ if (! isset($array_country[$row['countryid']])) {
     die();
 }
 
-$array_province = $location->getArrayProvince(array($row['countryid']));
+$array_province = $location->getArrayProvince('', $row['countryid']);
 if (! isset($array_province[$row['provinceid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=province');
     die();
