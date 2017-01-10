@@ -332,7 +332,7 @@ class Location
         return $return;
     }
 
-    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ', ', $module_url = '')
+    public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ' » ', $module_url = '')
     {
         global $module_config;
         
