@@ -357,17 +357,17 @@ class Location
 
         if (! empty($wardid)) {
             $ward_info = $this->getWardInfo($wardid);
-            $string[] = $module_url ? '<a href="' . $module_url . '/w/' . change_alias($ward_info['title']) . '-' . $ward_info['wardid'] . '" title="' . $ward_info['title'] . '">' . $ward_info['title'] . '</a>' : $ward_info['name'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/w/' . change_alias($ward_info['title']) . '-' . $ward_info['wardid'] . '" title="' . $ward_info['name'] . '">' . $ward_info['name'] . '</a>' : $ward_info['name'];
         }
 
         if (! empty($districtid)) {
             $district_info = $this->getDistricInfo($districtid);
-            $string[] = $module_url ? '<a href="' . $module_url . '/d/' . change_alias($district_info['title']) . '-' . $district_info['districtid'] . '" title="' . $district_info['title'] . '">' . $district_info['name'] . '</a>' : $district_info['title'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/d/' . change_alias($district_info['title']) . '-' . $district_info['districtid'] . '" title="' . $district_info['name'] . '">' . $district_info['name'] . '</a>' : $district_info['name'];
         }
 
         if (! empty($provinceid)) {
             $province_info = $this->getProvinceInfo($provinceid);
-            $string[] = $module_url ? '<a href="' . $module_url . '/p/' . change_alias($province_info['title']) . '-' . $province_info['provinceid'] . '" title="' . $province_info['title'] . '">' . $province_info['name'] . '</a>' : $province_info['title'];
+            $string[] = $module_url ? '<a href="' . $module_url . '/p/' . change_alias($province_info['title']) . '-' . $province_info['provinceid'] . '" title="' . $province_info['name'] . '">' . $province_info['name'] . '</a>' : $province_info['name'];
         }
 
         return implode($caret, $string);
