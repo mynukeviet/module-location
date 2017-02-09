@@ -407,64 +407,25 @@ class Location
             $j ++;
         }
         
-        if ($this->is_district) {
-            if (! empty($array_district)) {
-                if ($this->blank_title_district) {
-                    $xtpl->parse('form_input.district.blank_title');
-                }
-                foreach ($array_district as $districid => $district) {
-                    
-                    if (is_array($this->select_districtid)) {
-                        $district['selected'] = in_array($districid, $this->select_districtid) ? 'selected="selected"' : '';
-                    } else {
-                        $district['selected'] = $this->select_districtid == $districid ? 'selected="selected"' : '';
-                    }
-                    
-                    $xtpl->assign('DISTRICT', $district);
-                    
-                    if ($location_array_config['allow_type'] and ! empty($district['type'])) {
-                        $xtpl->parse('form_input.district.loop.type');
-                    }
-                    
-                    $xtpl->parse('form_input.district.loop');
-                }
-                if ($this->multiple_district) {
-                    $xtpl->parse('form_input.district.multiple');
-                } else {
-                    $xtpl->parse('form_input.district.none_multiple');
+        if ($this->is_district and ! $this->multiple_province) {
+            $j = 0;
+            $first_district = $this->select_districtid;
+            $allow_district = ! empty($this->allow_district) ? array(
+                $this->allow_district
+            ) : array();
+            $array_district = $this->getArrayDistrict($allow_district, $first_province);
+            foreach ($array_district as $index => $value) {
+                if ($j == 0 and empty($first_district)) {
+                    $first_district = $index;
                 }
             }
-            $xtpl->parse('form_input.district');
-        }
-        
-        if ($this->is_ward) {
-            if (! empty($array_ward)) {
-                if ($this->blank_title_ward) {
-                    $xtpl->parse('form_input.ward.blank_title');
-                }
-                foreach ($array_ward as $wardid => $ward) {
-                    
-                    if (is_array($this->select_wardid)) {
-                        $ward['selected'] = in_array($wardid, $this->select_wardid) ? 'selected="selected"' : '';
-                    } else {
-                        $ward['selected'] = $this->select_wardid == $wardid ? 'selected="selected"' : '';
-                    }
-                    
-                    $xtpl->assign('WARD', $ward);
-                    
-                    if ($location_array_config['allow_type'] and ! empty($ward['type'])) {
-                        $xtpl->parse('form_input.ward.loop.type');
-                    }
-                    
-                    $xtpl->parse('form_input.ward.loop');
-                }
-                if ($this->multiple_ward) {
-                    $xtpl->parse('form_input.ward.multiple');
-                } else {
-                    $xtpl->parse('form_input.ward.none_multiple');
-                }
+            
+            if ($this->is_ward and ! $this->multiple_district) {
+                $allow_ward = ! empty($this->allow_ward) ? array(
+                    $this->allow_ward
+                ) : array();
+                $array_ward = $this->getArrayWard($allow_ward, $first_district);
             }
-            $xtpl->parse('form_input.ward');
         }
         
         include NV_ROOTDIR . '/modules/location/language/admin_' . NV_LANG_INTERFACE . '.php';
@@ -540,58 +501,62 @@ class Location
             $xtpl->parse('form_input.province');
         }
         
-        if (! empty($array_district)) {
-            if ($this->blank_title_district) {
-                $xtpl->parse('form_input.district.blank_title');
-            }
-            foreach ($array_district as $districid => $district) {
-                
-                if (is_array($this->select_districtid)) {
-                    $district['selected'] = in_array($districid, $this->select_districtid) ? 'selected="selected"' : '';
+        if ($this->is_district) {
+            if (! empty($array_district)) {
+                if ($this->blank_title_district) {
+                    $xtpl->parse('form_input.district.blank_title');
+                }
+                foreach ($array_district as $districid => $district) {
+                    
+                    if (is_array($this->select_districtid)) {
+                        $district['selected'] = in_array($districid, $this->select_districtid) ? 'selected="selected"' : '';
+                    } else {
+                        $district['selected'] = $this->select_districtid == $districid ? 'selected="selected"' : '';
+                    }
+                    
+                    $xtpl->assign('DISTRICT', $district);
+                    
+                    if ($location_array_config['allow_type'] and ! empty($district['type'])) {
+                        $xtpl->parse('form_input.district.loop.type');
+                    }
+                    
+                    $xtpl->parse('form_input.district.loop');
+                }
+                if ($this->multiple_district) {
+                    $xtpl->parse('form_input.district.multiple');
                 } else {
-                    $district['selected'] = $this->select_districtid == $districid ? 'selected="selected"' : '';
+                    $xtpl->parse('form_input.district.none_multiple');
                 }
-                
-                $xtpl->assign('DISTRICT', $district);
-                
-                if ($location_array_config['allow_type'] and ! empty($district['type'])) {
-                    $xtpl->parse('form_input.district.loop.type');
-                }
-                
-                $xtpl->parse('form_input.district.loop');
-            }
-            if ($this->multiple_district) {
-                $xtpl->parse('form_input.district.multiple');
-            } else {
-                $xtpl->parse('form_input.district.none_multiple');
             }
             $xtpl->parse('form_input.district');
         }
         
-        if (! empty($array_ward)) {
-            if ($this->blank_title_ward) {
-                $xtpl->parse('form_input.ward.blank_title');
-            }
-            foreach ($array_ward as $wardid => $ward) {
-                
-                if (is_array($this->select_wardid)) {
-                    $ward['selected'] = in_array($wardid, $this->select_wardid) ? 'selected="selected"' : '';
+        if ($this->is_ward) {
+            if (! empty($array_ward)) {
+                if ($this->blank_title_ward) {
+                    $xtpl->parse('form_input.ward.blank_title');
+                }
+                foreach ($array_ward as $wardid => $ward) {
+                    
+                    if (is_array($this->select_wardid)) {
+                        $ward['selected'] = in_array($wardid, $this->select_wardid) ? 'selected="selected"' : '';
+                    } else {
+                        $ward['selected'] = $this->select_wardid == $wardid ? 'selected="selected"' : '';
+                    }
+                    
+                    $xtpl->assign('WARD', $ward);
+                    
+                    if ($location_array_config['allow_type'] and ! empty($ward['type'])) {
+                        $xtpl->parse('form_input.ward.loop.type');
+                    }
+                    
+                    $xtpl->parse('form_input.ward.loop');
+                }
+                if ($this->multiple_ward) {
+                    $xtpl->parse('form_input.ward.multiple');
                 } else {
-                    $ward['selected'] = $this->select_wardid == $wardid ? 'selected="selected"' : '';
+                    $xtpl->parse('form_input.ward.none_multiple');
                 }
-                
-                $xtpl->assign('WARD', $ward);
-                
-                if ($location_array_config['allow_type'] and ! empty($ward['type'])) {
-                    $xtpl->parse('form_input.ward.loop.type');
-                }
-                
-                $xtpl->parse('form_input.ward.loop');
-            }
-            if ($this->multiple_ward) {
-                $xtpl->parse('form_input.ward.multiple');
-            } else {
-                $xtpl->parse('form_input.ward.none_multiple');
             }
             $xtpl->parse('form_input.ward');
         }
