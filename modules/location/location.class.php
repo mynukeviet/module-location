@@ -2,9 +2,9 @@
 
 /**
  * @Project NUKEVIET 4.x
-* @Author mynukeviet (contact@mynukeviet.net)
-* @Copyright (C) 2016 mynukeviet. All rights reserved
-*/
+ * @Author mynukeviet (contact@mynukeviet.net)
+ * @Copyright (C) 2016 mynukeviet. All rights reserved
+ */
 class Location
 {
 
@@ -223,31 +223,31 @@ class Location
     public function getArrayCountry($inArrayId = array())
     {
         global $db_slave, $db_config, $module_config;
-
+        
         $where = '';
         if (! empty($inArrayId)) {
             $where .= ' AND countryid IN(' . implode(',', $inArrayId) . ')';
         }
-
+        
         $array_country = array();
         $result = $db_slave->query('SELECT * FROM ' . $db_config['prefix'] . '_location_country WHERE status=1 ' . $where . ' ORDER BY weight ASC');
         while ($row = $result->fetch()) {
             $row['name'] = $row['title'];
             $array_country[$row['countryid']] = $row;
         }
-
+        
         return $array_country;
     }
 
     public function getArrayProvince($inArrayId = array(), $countryid = 0)
     {
         global $db_slave, $db_config, $module_config;
-
+        
         $where = '';
         if (! empty($inArrayId)) {
             $where .= ' AND provinceid IN(' . implode(',', $inArrayId) . ')';
         }
-
+        
         if (! empty($countryid)) {
             if (is_array($countryid)) {
                 $where .= ' AND countryid IN (' . implode(',', $countryid) . ')';
@@ -255,26 +255,26 @@ class Location
                 $where .= ' AND countryid=' . $countryid;
             }
         }
-
+        
         $array_province = array();
         $result = $db_slave->query('SELECT * FROM ' . $db_config['prefix'] . '_location_province WHERE status=1 ' . $where . ' ORDER BY weight ASC');
         while ($row = $result->fetch()) {
             $row['name'] = ($module_config['location']['allow_type'] and ! empty($row['type'])) ? $row['type'] . ' ' . $row['title'] : $row['title'];
             $array_province[$row['provinceid']] = $row;
         }
-
+        
         return $array_province;
     }
 
     public function getArrayDistrict($inArrayId = array(), $provinceid = 0)
     {
         global $db_slave, $db_config, $module_config;
-
+        
         $where = '';
         if (! empty($inArrayId)) {
             $where .= ' AND districtid IN(' . implode(',', $inArrayId) . ')';
         }
-
+        
         if (! empty($provinceid)) {
             if (is_array($provinceid)) {
                 $where .= ' AND provinceid IN (' . implode(',', $provinceid) . ')';
@@ -282,26 +282,26 @@ class Location
                 $where .= ' AND provinceid=' . $provinceid;
             }
         }
-
+        
         $array_district = array();
         $result = $db_slave->query('SELECT * FROM ' . $db_config['prefix'] . '_location_district WHERE status=1 ' . $where . ' ORDER BY weight ASC');
         while ($row = $result->fetch()) {
             $row['name'] = ($module_config['location']['allow_type'] and ! empty($row['type'])) ? $row['type'] . ' ' . $row['title'] : $row['title'];
             $array_district[$row['districtid']] = $row;
         }
-
+        
         return $array_district;
     }
 
     public function getArrayWard($inArrayId = array(), $districtid = 0)
     {
         global $db_slave, $db_config, $module_config;
-
+        
         $where = '';
         if (! empty($inArrayId)) {
             $where .= ' AND wardid IN(' . implode(',', $inArrayId) . ')';
         }
-
+        
         if (! empty($districtid)) {
             if (is_array($districtid)) {
                 $where .= ' AND districtid IN (' . implode(',', $districtid) . ')';
@@ -309,14 +309,14 @@ class Location
                 $where .= ' AND districtid=' . $districtid;
             }
         }
-
+        
         $array_ward = array();
         $result = $db_slave->query('SELECT * FROM ' . $db_config['prefix'] . '_location_ward WHERE status=1 ' . $where . ' ORDER BY title ASC');
         while ($row = $result->fetch()) {
             $row['name'] = ($module_config['location']['allow_type'] and ! empty($row['type'])) ? $row['type'] . ' ' . $row['title'] : $row['title'];
             $array_ward[$row['wardid']] = $row;
         }
-
+        
         return $array_ward;
     }
 
@@ -351,36 +351,36 @@ class Location
     public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ' » ', $module_url = '')
     {
         global $module_config;
-
+        
         $location_array_config = $module_config['location'];
         $string = array();
-
+        
         if (! empty($wardid)) {
             $ward_info = $this->getWardInfo($wardid);
             $string[] = $module_url ? '<a href="' . $module_url . '/w/' . change_alias($ward_info['title']) . '-' . $ward_info['wardid'] . '" title="' . $ward_info['name'] . '">' . $ward_info['name'] . '</a>' : $ward_info['name'];
         }
-
+        
         if (! empty($districtid)) {
             $district_info = $this->getDistricInfo($districtid);
             $string[] = $module_url ? '<a href="' . $module_url . '/d/' . change_alias($district_info['title']) . '-' . $district_info['districtid'] . '" title="' . $district_info['name'] . '">' . $district_info['name'] . '</a>' : $district_info['name'];
         }
-
+        
         if (! empty($provinceid)) {
             $province_info = $this->getProvinceInfo($provinceid);
             $string[] = $module_url ? '<a href="' . $module_url . '/p/' . change_alias($province_info['title']) . '-' . $province_info['provinceid'] . '" title="' . $province_info['name'] . '">' . $province_info['name'] . '</a>' : $province_info['name'];
         }
-
+        
         return implode($caret, $string);
     }
 
     public function buildInput($template = 'default', $module = 'location')
     {
         global $site_mods, $global_config, $lang_module, $module_config;
-
+        
         $array_country = $array_province = $array_district = $array_ward = array();
-
+        
         $location_array_config = $module_config['location'];
-
+        
         $i = 0;
         $first_country = $this->select_countryid;
         $allow_country = ! empty($this->allow_country) ? array(
@@ -393,7 +393,7 @@ class Location
             }
             $i ++;
         }
-
+        
         $j = 0;
         $first_province = $this->select_provinceid;
         $allow_province = ! empty($this->allow_province) ? array(
@@ -406,55 +406,95 @@ class Location
             }
             $j ++;
         }
-
-        if ($this->is_district and ! $this->multiple_province) {
-            $j = 0;
-            $first_district = $this->select_districtid;
-            $allow_district = ! empty($this->allow_district) ? array(
-                $this->allow_district
-            ) : array();
-            $array_district = $this->getArrayDistrict($allow_district, $first_province);
-            foreach ($array_district as $index => $value) {
-                if ($j == 0 and empty($first_district)) {
-                    $first_district = $index;
+        
+        if ($this->is_district) {
+            if (! empty($array_district)) {
+                if ($this->blank_title_district) {
+                    $xtpl->parse('form_input.district.blank_title');
+                }
+                foreach ($array_district as $districid => $district) {
+                    
+                    if (is_array($this->select_districtid)) {
+                        $district['selected'] = in_array($districid, $this->select_districtid) ? 'selected="selected"' : '';
+                    } else {
+                        $district['selected'] = $this->select_districtid == $districid ? 'selected="selected"' : '';
+                    }
+                    
+                    $xtpl->assign('DISTRICT', $district);
+                    
+                    if ($location_array_config['allow_type'] and ! empty($district['type'])) {
+                        $xtpl->parse('form_input.district.loop.type');
+                    }
+                    
+                    $xtpl->parse('form_input.district.loop');
+                }
+                if ($this->multiple_district) {
+                    $xtpl->parse('form_input.district.multiple');
+                } else {
+                    $xtpl->parse('form_input.district.none_multiple');
                 }
             }
-
-            if ($this->is_ward and ! $this->multiple_district) {
-                $allow_ward = ! empty($this->allow_ward) ? array(
-                    $this->allow_ward
-                ) : array();
-                $array_ward = $this->getArrayWard($allow_ward, $first_district);
-            }
+            $xtpl->parse('form_input.district');
         }
-
+        
+        if ($this->is_ward) {
+            if (! empty($array_ward)) {
+                if ($this->blank_title_ward) {
+                    $xtpl->parse('form_input.ward.blank_title');
+                }
+                foreach ($array_ward as $wardid => $ward) {
+                    
+                    if (is_array($this->select_wardid)) {
+                        $ward['selected'] = in_array($wardid, $this->select_wardid) ? 'selected="selected"' : '';
+                    } else {
+                        $ward['selected'] = $this->select_wardid == $wardid ? 'selected="selected"' : '';
+                    }
+                    
+                    $xtpl->assign('WARD', $ward);
+                    
+                    if ($location_array_config['allow_type'] and ! empty($ward['type'])) {
+                        $xtpl->parse('form_input.ward.loop.type');
+                    }
+                    
+                    $xtpl->parse('form_input.ward.loop');
+                }
+                if ($this->multiple_ward) {
+                    $xtpl->parse('form_input.ward.multiple');
+                } else {
+                    $xtpl->parse('form_input.ward.none_multiple');
+                }
+            }
+            $xtpl->parse('form_input.ward');
+        }
+        
         include NV_ROOTDIR . '/modules/location/language/admin_' . NV_LANG_INTERFACE . '.php';
-
+        
         $xtpl = new XTemplate('form_input.tpl', NV_ROOTDIR . '/themes/' . $template . '/modules/' . $site_mods[$module]['module_file']);
         $xtpl->assign('LANG', $lang_module);
-        $xtpl->assign('CONFIG', array(
-            'select_countryid' => $this->select_countryid,
-            'allow_country' => $this->allow_country,
-            'allow_province' => $this->allow_province,
-            'allow_district' => $this->allow_district,
-            'allow_ward' => $this->allow_ward,
-            'multiple_province' => $this->multiple_province,
-            'multiple_district' => $this->multiple_district,
-            'multiple_ward' => $this->multiple_ward,
-            'is_district' => $this->is_district,
-            'is_ward' => $this->is_ward,
-            'blank_title_country' => $this->blank_title_country,
-            'blank_title_province' => $this->blank_title_province,
-            'blank_title_district' => $this->blank_title_district,
-            'blank_title_ward' => $this->blank_title_ward,
-            'name_country' => $this->name_country,
-            'name_province' => $this->name_province,
-            'name_district' => $this->name_district,
-            'name_ward' => $this->name_ward,
-            'index' => $this->index,
-            'col_class' => $this->col_class
-        ));
-
+        $xtpl->assign('CONFIG', 
+            array(
+                'select_countryid' => $this->select_countryid,
+                'allow_country' => $this->allow_country,
+                'allow_province' => $this->allow_province,
+                'allow_district' => $this->allow_district,
+                'allow_ward' => $this->allow_ward,
+                'multiple_province' => $this->multiple_province,
+                'multiple_district' => $this->multiple_district,
+                'multiple_ward' => $this->multiple_ward,
+                'is_district' => $this->is_district,
+                'is_ward' => $this->is_ward,
+                'blank_title_country' => $this->blank_title_country,
+                'blank_title_province' => $this->blank_title_province,
+                'blank_title_district' => $this->blank_title_district,
+                'blank_title_ward' => $this->blank_title_ward,
+                'name_country' => $this->name_country,
+                'name_province' => $this->name_province,
+                'name_district' => $this->name_district,
+                'name_ward' => $this->name_ward,
+                'index' => $this->index,
+                'col_class' => $this->col_class
+            ));
+        
         if (! empty($array_country)) {
             if ($i > 1) {
                 if ($this->blank_title_country) {
@@ -471,25 +511,25 @@ class Location
                 $xtpl->parse('form_input.country_hidden');
             }
         }
-
+        
         if (! empty($array_province)) {
             if ($this->blank_title_province) {
                 $xtpl->parse('form_input.province.blank_title');
             }
             foreach ($array_province as $provinceid => $province) {
-
+                
                 if (is_array($this->select_provinceid)) {
                     $province['selected'] = in_array($provinceid, $this->select_provinceid) ? 'selected="selected"' : '';
                 } else {
                     $province['selected'] = $this->select_provinceid == $provinceid ? 'selected="selected"' : '';
                 }
-
+                
                 $xtpl->assign('PROVINCE', $province);
-
+                
                 if ($location_array_config['allow_type'] and ! empty($province['type'])) {
                     $xtpl->parse('form_input.province.loop.type');
                 }
-
+                
                 $xtpl->parse('form_input.province.loop');
             }
             if ($this->multiple_province) {
@@ -499,25 +539,25 @@ class Location
             }
             $xtpl->parse('form_input.province');
         }
-
+        
         if (! empty($array_district)) {
             if ($this->blank_title_district) {
                 $xtpl->parse('form_input.district.blank_title');
             }
             foreach ($array_district as $districid => $district) {
-
+                
                 if (is_array($this->select_districtid)) {
                     $district['selected'] = in_array($districid, $this->select_districtid) ? 'selected="selected"' : '';
                 } else {
                     $district['selected'] = $this->select_districtid == $districid ? 'selected="selected"' : '';
                 }
-
+                
                 $xtpl->assign('DISTRICT', $district);
-
+                
                 if ($location_array_config['allow_type'] and ! empty($district['type'])) {
                     $xtpl->parse('form_input.district.loop.type');
                 }
-
+                
                 $xtpl->parse('form_input.district.loop');
             }
             if ($this->multiple_district) {
@@ -527,25 +567,25 @@ class Location
             }
             $xtpl->parse('form_input.district');
         }
-
+        
         if (! empty($array_ward)) {
             if ($this->blank_title_ward) {
                 $xtpl->parse('form_input.ward.blank_title');
             }
             foreach ($array_ward as $wardid => $ward) {
-
+                
                 if (is_array($this->select_wardid)) {
                     $ward['selected'] = in_array($wardid, $this->select_wardid) ? 'selected="selected"' : '';
                 } else {
                     $ward['selected'] = $this->select_wardid == $wardid ? 'selected="selected"' : '';
                 }
-
+                
                 $xtpl->assign('WARD', $ward);
-
+                
                 if ($location_array_config['allow_type'] and ! empty($ward['type'])) {
                     $xtpl->parse('form_input.ward.loop.type');
                 }
-
+                
                 $xtpl->parse('form_input.ward.loop');
             }
             if ($this->multiple_ward) {
@@ -555,12 +595,12 @@ class Location
             }
             $xtpl->parse('form_input.ward');
         }
-
+        
         $xtpl->parse('form_input');
         $form_input = $xtpl->text('form_input');
-
+        
         $xtpl->assign('FORM_INPUT', $form_input);
-
+        
         $xtpl->parse('main');
         return $xtpl->text('main');
     }
