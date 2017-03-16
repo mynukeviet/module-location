@@ -23,8 +23,13 @@
 <!-- END: main -->
 
 <!-- BEGIN: form_input -->
+
+<!-- BEGIN: select2 -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css">
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/i18n/{NV_LANG_INTERFACE}.js"></script>
+<!-- END: select2 -->
 
 <div class="row location-row">
 	<!-- BEGIN: country -->
@@ -100,8 +105,6 @@
 	</div>
 	<!-- END: ward -->
 </div>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
-<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/i18n/{NV_LANG_INTERFACE}.js"></script>
 <script>
 $(document).ready(function() {
     $('#countryid-{CONFIG.index}, #provinceid-{CONFIG.index}, #districtid-{CONFIG.index}, #wardid-{CONFIG.index}').select2({

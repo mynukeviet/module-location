@@ -561,6 +561,11 @@ class Location
             $xtpl->parse('form_input.ward');
         }
         
+        if (! defined('SELECT2')) {
+            $xtpl->parse('form_input.select2');
+            define('SELECT2', true);
+        }
+        
         $xtpl->parse('form_input');
         $form_input = $xtpl->text('form_input');
         
