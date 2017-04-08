@@ -34,7 +34,7 @@
 <div class="row location-row">
 	<!-- BEGIN: country -->
 	<div class="{CONFIG.col_class} m-bottom country">
-		<select class="form-control" name="{CONFIG.name_country}" id="countryid-{CONFIG.index}">
+		<select class="form-control location" data-type="countryid" name="{CONFIG.name_country}" id="countryid-{CONFIG.index}">
 			<!-- BEGIN: blank_title -->
 			<option value="0">---{LANG.country_cc}---</option>
 			<!-- END: blank_title -->
@@ -50,7 +50,7 @@
 
 	<!-- BEGIN: province -->
 	<div class="{CONFIG.col_class} m-bottom province">
-		<select class="form-control"
+		<select class="form-control location" data-type="provinceid"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_province}"
 			<!-- END: none_multiple --> id="provinceid-{CONFIG.index}"
 			<!-- BEGIN: multiple -->name="{CONFIG.name_province}[]" multiple="multiple"
@@ -69,7 +69,7 @@
 
 	<!-- BEGIN: district -->
 	<div class="{CONFIG.col_class} m-bottom district">
-		<select class="form-control"
+		<select class="form-control location" data-type="districtid"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_district}"
 			<!-- END: none_multiple --> id="districtid-{CONFIG.index}"
 			<!-- BEGIN: multiple -->name="{CONFIG.name_district}[]" multiple="multiple"
@@ -88,7 +88,7 @@
 
 	<!-- BEGIN: ward -->
 	<div class="{CONFIG.col_class} m-bottom ward">
-		<select class="form-control"
+		<select class="form-control location" data-type="wardid"
 			<!-- BEGIN: none_multiple -->name="{CONFIG.name_ward}"
 			<!-- END: none_multiple --> id="wardid-{CONFIG.index}"
 			<!-- BEGIN: multiple -->name="{CONFIG.name_ward}[]" multiple="multiple"
@@ -121,33 +121,51 @@ $(document).ready(function() {
                 $('#form-input-{CONFIG.index}').html( res );
             }
         });
+        
+		if(typeof nv_location_change === 'function'){
+			nv_location_change('countryid', $(this).val());
+    	}
     });
 
-    if( $('#districtid-{CONFIG.index}').length > 0 ){
-        $('#provinceid-{CONFIG.index}').change(function(){
-            $(this).val() != 0 && $.ajax({
-                method: 'POST',
-                url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
-                data : nv_location_build_query({CONFIG.index}),
-                success : function( res ){
-                    $('#form-input-{CONFIG.index}').html( res );
-                }
-            });
-        });
-    }
+    $('#provinceid-{CONFIG.index}').change(function(){
+		if( $('#districtid-{CONFIG.index}').length > 0 ){
+			$(this).val() != 0 && $.ajax({
+		        method: 'POST',
+		        url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
+		        data : nv_location_build_query({CONFIG.index}),
+		        success : function( res ){
+		            $('#form-input-{CONFIG.index}').html( res );
+		        }
+			});
+		}
 
-    if( $('#wardid-{CONFIG.index}').length > 0 ){
-        $('#districtid-{CONFIG.index}').change(function(){
-            $(this).val() != 0 && $.ajax({
-                method: 'POST',
-                url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
-                data : nv_location_build_query({CONFIG.index}),
-                success : function( res ){
-                    $('#form-input-{CONFIG.index}').html( res );
-                }
-            });
-        });
-    }
+		if(typeof nv_location_change === 'function'){
+			nv_location_change('provinceid', $(this).val());
+    	}
+    });
+    
+	$('#districtid-{CONFIG.index}').change(function(){
+		if( $('#wardid-{CONFIG.index}').length > 0 ){
+			$(this).val() != 0 && $.ajax({
+		        method: 'POST',
+		        url : nv_base_siteurl + 'index.php?' + nv_lang_variable + '=' + nv_lang_data + '&' + nv_name_variable + '=location',
+		        data : nv_location_build_query({CONFIG.index}),
+		        success : function( res ){
+		            $('#form-input-{CONFIG.index}').html( res );
+		        }
+		    });
+		}
+		
+		if(typeof nv_location_change === 'function'){
+    		nv_location_change('districtid', $(this).val());
+    	}
+	});
+	
+	$('#wardid-{CONFIG.index}').change(function(){
+		if(typeof nv_location_change === 'function'){
+			nv_location_change('wardidid', $(this).val());
+    	}		
+	});
 });
 
 if (typeof nv_location_build_query != 'function'){

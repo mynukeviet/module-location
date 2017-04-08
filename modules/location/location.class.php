@@ -50,7 +50,7 @@ class Location
 
     private $name_ward = 'wardid';
 
-    private $index = 0;
+    private $index = null;
 
     private $col_class = 'col-xs-24 col-sm-12 col-md-12';
 
@@ -378,8 +378,18 @@ class Location
         global $site_mods, $global_config, $lang_module, $module_config;
         
         $array_country = $array_province = $array_district = $array_ward = array();
-        
         $location_array_config = $module_config['location'];
+        
+        if ($this->index == null) {
+            if (! defined('NV_LOCATION')) {
+                define('NV_LOCATION', 0);
+                $location_index = 0;
+            } else {
+                $location_index = NV_LOCATION + 1;
+            }
+        } else {
+            $location_index = $this->index;
+        }
         
         $i = 0;
         $first_country = $this->select_countryid;
@@ -452,7 +462,7 @@ class Location
                 'name_province' => $this->name_province,
                 'name_district' => $this->name_district,
                 'name_ward' => $this->name_ward,
-                'index' => $this->index,
+                'index' => $location_index,
                 'col_class' => $this->col_class
             ));
         
