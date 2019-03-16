@@ -120,9 +120,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $error[] = $lang_module['error_required_title'];
     }
 
-    $count = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_country WHERE countryid=' . $row['countryid'])->fetchColumn();
-    if ($count > 0 and empty($row['countryid'])) {
-        $error[] = $lang_module['error_required_countryid_exist'];
+    if (empty($row['countryid']) && !empty($row['code'])) {
+        $count = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_country WHERE code=' . $row['code'])->fetchColumn();
+        if ($count > 0) {
+            $error[] = $lang_module['error_required_countryid_exist'];
+        }
     }
 
     if (empty($error)) {

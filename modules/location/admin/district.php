@@ -19,7 +19,7 @@ if ($nv_Request->isset_request('get_alias_title', 'post')) {
 if ($nv_Request->isset_request('change_status', 'post, get')) {
     $districtid = $nv_Request->get_int('districtid', 'post, get', 0);
     $content = 'NO_' . $districtid;
-    
+
     $query = 'SELECT status FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $districtid;
     $row = $db->query($query)->fetch();
     if (isset($row['status'])) {
@@ -71,7 +71,7 @@ if ($nv_Request->isset_request('delete_districtid', 'get') and $nv_Request->isse
         $sql = 'SELECT weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid =' . $db->quote($districtid);
         $result = $db->query($sql);
         list ($weight) = $result->fetch(3);
-        
+
         $db->query('DELETE FROM ' . $db_config['prefix'] . '_' . $module_data . '_district  WHERE districtid = ' . $db->quote($districtid) . ' AND provinceid=' . $db->quote($provinceid));
         if ($weight > 0) {
             $sql = 'SELECT districtid, weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE weight >' . $weight;
@@ -115,36 +115,43 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $row['alias'] = $nv_Request->get_title('area_alias', 'post', '', 1);
     if (empty($row['alias'])) {
         $row['alias'] = change_alias($row['title']);
-        
+
         $stmt = $db->prepare('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid != :districtid AND alias = :alias');
         $stmt->bindParam(':districtid', $row['districtid'], PDO::PARAM_STR);
         $stmt->bindParam(':alias', $row['alias'], PDO::PARAM_STR);
         $stmt->execute();
-        
+
         if ($stmt->fetchColumn()) {
             $weight = $db->query('SELECT MAX(weight) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $row['districtid'] . ' AND provinceid=' . $row['provinceid'])->fetchColumn();
             $weight = intval($weight) + 1;
             $row['alias'] = $row['alias'] . '-' . $weight;
         }
     }
-    
+
     if (empty($row['title'])) {
         $error[] = $lang_module['error_required_title'];
     } elseif (empty($row['provinceid'])) {
         $error[] = $lang_module['error_required_districtid_provinceid'];
     }
-    
+
+    if (empty($row['districtid']) && !empty($row['code'])) {
+        $count = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE code=' . $row['code'])->fetchColumn();
+        if ($count > 0) {
+            $error[] = $lang_module['error_required_districtid_exist'];
+        }
+    }
+
     $count = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid=' . $db->quote($row['districtid']))
         ->fetchColumn();
     if ($count > 0 and $row['districtid'] == 0) {
         $error[] = $lang_module['error_required_districtid_exist'];
     }
-    
+
     if (empty($error)) {
         try {
             if (empty($row['districtid'])) {
                 $stmt = $db->prepare('INSERT INTO ' . $db_config['prefix'] . '_' . $module_data . '_district (code, provinceid, title, alias, type, location, weight) VALUES (:code, :provinceid, :title, :alias, :type, :location, :weight)');
-                
+
                 $weight = $db->query('SELECT max(weight) FROM ' . $db_config['prefix'] . '_' . $module_data . '_district')->fetchColumn();
                 $weight = intval($weight) + 1;
                 $stmt->bindParam(':weight', $weight, PDO::PARAM_INT);
@@ -157,7 +164,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
             $stmt->bindParam(':alias', $row['alias'], PDO::PARAM_STR);
             $stmt->bindParam(':type', $row['type'], PDO::PARAM_STR);
             $stmt->bindParam(':location', $row['location'], PDO::PARAM_STR);
-            
+
             $exc = $stmt->execute();
             if ($exc) {
                 $nv_Cache->delMod($module_name);
@@ -166,7 +173,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
             }
         } catch (PDOException $e) {
             trigger_error($e->getMessage());
-            die($e->getMessage()); // Remove this line after checks finished
         }
     }
 } elseif ($row['districtid'] > 0) {
@@ -197,13 +203,13 @@ if (!$nv_Request->isset_request('id', 'post,get')) {
     $db->sqlreset()
         ->select('COUNT(*)')
         ->from('' . $db_config['prefix'] . '_' . $module_data . '_district');
-    
+
     if (!empty($q)) {
         $where .= ' AND ( districtid LIKE :q_districtid OR title LIKE :q_title OR type LIKE :q_type OR alias LIKE :q_alias OR location LIKE :q_location)';
     }
     $db->where('provinceid=' . $db->quote($row['provinceid']) . $where);
     $sth = $db->prepare($db->sql());
-    
+
     if (!empty($q)) {
         $sth->bindValue(':q_districtid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
@@ -213,13 +219,13 @@ if (!$nv_Request->isset_request('id', 'post,get')) {
     }
     $sth->execute();
     $num_items = $sth->fetchColumn();
-    
+
     $db->select('*')
         ->order('weight ASC')
         ->limit($per_page)
         ->offset(($page - 1) * $per_page);
     $sth = $db->prepare($db->sql());
-    
+
     if (!empty($q)) {
         $sth->bindValue(':q_districtid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
