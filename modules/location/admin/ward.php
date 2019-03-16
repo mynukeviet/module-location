@@ -7,8 +7,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Wed, 16 Dec 2015 08:12:58 GMT
  */
-if (! defined('NV_IS_FILE_ADMIN'))
-    die('Stop!!!');
+if (!defined('NV_IS_FILE_ADMIN')) die('Stop!!!');
 
 if ($nv_Request->isset_request('get_alias_title', 'post')) {
     $alias = $nv_Request->get_title('get_alias_title', 'post', '');
@@ -41,7 +40,7 @@ if ($nv_Request->isset_request('delete_wardid', 'get') and $nv_Request->isset_re
     $provinceid = $nv_Request->get_int('provinceid', 'get', 0);
     $districtid = $nv_Request->get_int('districtid', 'get', 0);
     $delete_checkss = $nv_Request->get_string('delete_checkss', 'get');
-    if (! empty($wardid) and $delete_checkss == md5($wardid . NV_CACHE_PREFIX . $client_info['session_id'])) {
+    if (!empty($wardid) and $delete_checkss == md5($wardid . NV_CACHE_PREFIX . $client_info['session_id'])) {
         $db->query('DELETE FROM ' . $db_config['prefix'] . '_' . $module_data . '_ward  WHERE wardid = ' . $wardid);
         $nv_Cache->delMod($module_name);
         Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op . '&provinceid=' . $provinceid . '&districtid=' . $districtid);
@@ -58,7 +57,7 @@ $row['districtid'] = $nv_Request->get_int('districtid', 'post,get', 0);
 $location = new Location();
 
 $array_district = $location->getArrayDistrict('', $row['provinceid']);
-if (! isset($array_district[$row['districtid']])) {
+if (!isset($array_district[$row['districtid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=province');
     die();
 }
@@ -67,13 +66,13 @@ $province_info = $location->getProvinceInfo($row['provinceid']);
 $row['countryid'] = $province_info['countryid'];
 
 $array_country = $location->getArrayCountry();
-if (! isset($array_country[$row['countryid']])) {
+if (!isset($array_country[$row['countryid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=country');
     die();
 }
 
 $array_province = $location->getArrayProvince('', $row['countryid']);
-if (! isset($array_province[$row['provinceid']])) {
+if (!isset($array_province[$row['provinceid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=province');
     die();
 }
@@ -158,7 +157,7 @@ $q = $nv_Request->get_title('q', 'post,get');
 
 // Fetch Limit
 $show_view = false;
-if (! $nv_Request->isset_request('id', 'post,get')) {
+if (!$nv_Request->isset_request('id', 'post,get')) {
     $where = '';
     $show_view = true;
     $per_page = 10;
@@ -167,13 +166,13 @@ if (! $nv_Request->isset_request('id', 'post,get')) {
         ->select('COUNT(*)')
         ->from('' . $db_config['prefix'] . '_' . $module_data . '_ward');
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $where .= ' AND ( wardid LIKE :q_wardid OR title LIKE :q_title OR type LIKE :q_type OR alias LIKE :q_alias OR location LIKE :q_location)';
     }
     $db->where('districtid=' . $db->quote($row['districtid']) . $where);
     $sth = $db->prepare($db->sql());
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $sth->bindValue(':q_wardid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
         $sth->bindValue(':q_alias', '%' . $q . '%');
@@ -190,7 +189,7 @@ if (! $nv_Request->isset_request('id', 'post,get')) {
     
     $sth = $db->prepare($db->sql());
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $sth->bindValue(':q_wardid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
         $sth->bindValue(':q_alias', '%' . $q . '%');
@@ -210,17 +209,17 @@ $xtpl->assign('Q', $q);
 
 if ($show_view) {
     $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;provinceid=' . $row['provinceid'] . '&amp;districtid=' . $row['districtid'];
-    if (! empty($q)) {
+    if (!empty($q)) {
         $base_url .= '&q=' . $q;
     }
     $generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
-    if (! empty($generate_page)) {
+    if (!empty($generate_page)) {
         $xtpl->assign('NV_GENERATE_PAGE', $generate_page);
         $xtpl->parse('main.view.generate_page');
     }
     $number = $page > 1 ? ($per_page * ($page - 1)) + 1 : 1;
     while ($view = $sth->fetch()) {
-        $view['number'] = $number ++;
+        $view['number'] = $number++;
         $view['count'] = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_ward WHERE wardid=' . $db->quote($view['wardid']))
             ->fetchColumn();
         $xtpl->assign('CHECK', $view['status'] == 1 ? 'checked' : '');
@@ -233,7 +232,7 @@ if ($show_view) {
     $xtpl->parse('main.view');
 }
 
-if (! empty($array_district)) {
+if (!empty($array_district)) {
     foreach ($array_district as $district) {
         $district['selected'] = $district['districtid'] == $row['districtid'] ? 'selected="selected"' : '';
         $xtpl->assign('DISTRICT', $district);
@@ -241,7 +240,7 @@ if (! empty($array_district)) {
     }
 }
 
-if (! empty($error)) {
+if (!empty($error)) {
     $xtpl->assign('ERROR', implode('<br />', $error));
     $xtpl->parse('main.error');
 }
@@ -263,11 +262,11 @@ $array_mod_title = array(
         'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=province&amp;countryid=' . $row['countryid']
     ),
     array(
-        'title' => ! empty($array_province[$row['provinceid']]['type']) ? $array_province[$row['provinceid']]['type'] . ' ' . $array_province[$row['provinceid']]['title'] : $array_province[$row['provinceid']]['title'],
+        'title' => !empty($array_province[$row['provinceid']]['type']) ? $array_province[$row['provinceid']]['type'] . ' ' . $array_province[$row['provinceid']]['title'] : $array_province[$row['provinceid']]['title'],
         'link' => NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=district&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $row['provinceid']
     ),
     array(
-        'title' => ! empty($array_district[$row['districtid']]['type']) ? $array_district[$row['districtid']]['type'] . ' ' . $array_district[$row['districtid']]['title'] : $array_district[$row['districtid']]['title']
+        'title' => !empty($array_district[$row['districtid']]['type']) ? $array_district[$row['districtid']]['type'] . ' ' . $array_district[$row['districtid']]['title'] : $array_district[$row['districtid']]['title']
     )
 );
 

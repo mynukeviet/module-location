@@ -18,92 +18,85 @@
 <input type="hidden" id="name_ward_{CONFIG.index}" value="{CONFIG.name_ward}" />
 <input type="hidden" id="index_{CONFIG.index}" value="{CONFIG.index}" />
 <input type="hidden" id="col_class_{CONFIG.index}" value="{CONFIG.col_class}" />
-
 <div id="form-input-{CONFIG.index}">{FORM_INPUT}</div>
 <!-- END: main -->
-
 <!-- BEGIN: form_input -->
-
 <!-- BEGIN: select2 -->
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css">
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/i18n/{NV_LANG_INTERFACE}.js"></script>
 <!-- END: select2 -->
-
 <div class="row location-row">
-	<!-- BEGIN: country -->
-	<div class="{CONFIG.col_class} m-bottom country">
-		<select class="form-control location" data-type="countryid" name="{CONFIG.name_country}" id="countryid-{CONFIG.index}">
-			<!-- BEGIN: blank_title -->
-			<option value="0">---{LANG.country_cc}---</option>
-			<!-- END: blank_title -->
-			<!-- BEGIN: loop -->
-			<option value="{COUNTRY.countryid}"{COUNTRY.selected}>{COUNTRY.title}</option>
-			<!-- END: loop -->
-		</select>
-	</div>
-	<!-- END: country -->
-	<!-- BEGIN: country_hidden -->
-	<input type="hidden" name="{CONFIG.name_country}" value="{COUNTRYID}" />
-	<!-- END: country_hidden -->
-
-	<!-- BEGIN: province -->
-	<div class="{CONFIG.col_class} m-bottom province">
-		<select class="form-control location" data-type="provinceid"
-			<!-- BEGIN: none_multiple -->name="{CONFIG.name_province}"
-			<!-- END: none_multiple --> id="provinceid-{CONFIG.index}"
-			<!-- BEGIN: multiple -->name="{CONFIG.name_province}[]" multiple="multiple"
-			<!-- END: multiple --> >
-			<!-- BEGIN: blank_title -->
-			<option value="0">---{LANG.province_cc}---</option>
-			<!-- END: blank_title -->
-			<!-- BEGIN: loop -->
-			<option value="{PROVINCE.provinceid}"{PROVINCE.selected}><!-- BEGIN: type -->{PROVINCE.type}
-				<!-- END: type -->{PROVINCE.title}
-			</option>
-			<!-- END: loop -->
-		</select>
-	</div>
-	<!-- END: province -->
-
-	<!-- BEGIN: district -->
-	<div class="{CONFIG.col_class} m-bottom district">
-		<select class="form-control location" data-type="districtid"
-			<!-- BEGIN: none_multiple -->name="{CONFIG.name_district}"
-			<!-- END: none_multiple --> id="districtid-{CONFIG.index}"
-			<!-- BEGIN: multiple -->name="{CONFIG.name_district}[]" multiple="multiple"
-			<!-- END: multiple --> >
-			<!-- BEGIN: blank_title -->
-			<option value="0">---{LANG.district_cc}---</option>
-			<!-- END: blank_title -->
-			<!-- BEGIN: loop -->
-			<option value="{DISTRICT.districtid}"{DISTRICT.selected}><!-- BEGIN: type -->{DISTRICT.type}
-				<!-- END: type -->{DISTRICT.title}
-			</option>
-			<!-- END: loop -->
-		</select>
-	</div>
-	<!-- END: district -->
-
-	<!-- BEGIN: ward -->
-	<div class="{CONFIG.col_class} m-bottom ward">
-		<select class="form-control location" data-type="wardid"
-			<!-- BEGIN: none_multiple -->name="{CONFIG.name_ward}"
-			<!-- END: none_multiple --> id="wardid-{CONFIG.index}"
-			<!-- BEGIN: multiple -->name="{CONFIG.name_ward}[]" multiple="multiple"
-			<!-- END: multiple --> >
-			<!-- BEGIN: blank_title -->
-			<option value="0">---{LANG.ward_cc}---</option>
-			<!-- END: blank_title -->
-			<!-- BEGIN: loop -->
-			<option value="{WARD.wardid}"{WARD.selected}><!-- BEGIN: type -->{WARD.type}
-				<!-- END: type -->{WARD.title}
-			</option>
-			<!-- END: loop -->
-		</select>
-	</div>
-	<!-- END: ward -->
+    <!-- BEGIN: country -->
+    <div class="{CONFIG.col_class} m-bottom country">
+        <select class="form-control location" data-type="countryid" name="{CONFIG.name_country}" id="countryid-{CONFIG.index}">
+            <!-- BEGIN: blank_title -->
+            <option value="0">---{LANG.country_cc}---</option>
+            <!-- END: blank_title -->
+            <!-- BEGIN: loop -->
+            <option value="{COUNTRY.countryid}"{COUNTRY.selected}>{COUNTRY.title}</option>
+            <!-- END: loop -->
+        </select>
+    </div>
+    <!-- END: country -->
+    <!-- BEGIN: country_hidden -->
+    <input type="hidden" name="{CONFIG.name_country}" value="{COUNTRYID}" />
+    <!-- END: country_hidden -->
+    <!-- BEGIN: province -->
+    <div class="{CONFIG.col_class} m-bottom province">
+        <select class="form-control location" data-type="provinceid"
+            <!-- BEGIN: none_multiple -->name="{CONFIG.name_province}"
+            <!-- END: none_multiple --> id="provinceid-{CONFIG.index}"
+            <!-- BEGIN: multiple -->name="{CONFIG.name_province}[]" multiple="multiple"
+            <!-- END: multiple --> >
+            <!-- BEGIN: blank_title -->
+            <option value="0">---{LANG.province_cc}---</option>
+            <!-- END: blank_title -->
+            <!-- BEGIN: loop -->
+            <option value="{PROVINCE.provinceid}"{PROVINCE.selected}><!-- BEGIN: type -->{PROVINCE.type}
+                <!-- END: type -->{PROVINCE.title}
+            </option>
+            <!-- END: loop -->
+        </select>
+    </div>
+    <!-- END: province -->
+    <!-- BEGIN: district -->
+    <div class="{CONFIG.col_class} m-bottom district">
+        <select class="form-control location" data-type="districtid"
+            <!-- BEGIN: none_multiple -->name="{CONFIG.name_district}"
+            <!-- END: none_multiple --> id="districtid-{CONFIG.index}"
+            <!-- BEGIN: multiple -->name="{CONFIG.name_district}[]" multiple="multiple"
+            <!-- END: multiple --> >
+            <!-- BEGIN: blank_title -->
+            <option value="0">---{LANG.district_cc}---</option>
+            <!-- END: blank_title -->
+            <!-- BEGIN: loop -->
+            <option value="{DISTRICT.districtid}"{DISTRICT.selected}><!-- BEGIN: type -->{DISTRICT.type}
+                <!-- END: type -->{DISTRICT.title}
+            </option>
+            <!-- END: loop -->
+        </select>
+    </div>
+    <!-- END: district -->
+    <!-- BEGIN: ward -->
+    <div class="{CONFIG.col_class} m-bottom ward">
+        <select class="form-control location" data-type="wardid"
+            <!-- BEGIN: none_multiple -->name="{CONFIG.name_ward}"
+            <!-- END: none_multiple --> id="wardid-{CONFIG.index}"
+            <!-- BEGIN: multiple -->name="{CONFIG.name_ward}[]" multiple="multiple"
+            <!-- END: multiple --> >
+            <!-- BEGIN: blank_title -->
+            <option value="0">---{LANG.ward_cc}---</option>
+            <!-- END: blank_title -->
+            <!-- BEGIN: loop -->
+            <option value="{WARD.wardid}"{WARD.selected}><!-- BEGIN: type -->{WARD.type}
+                <!-- END: type -->{WARD.title}
+            </option>
+            <!-- END: loop -->
+        </select>
+    </div>
+    <!-- END: ward -->
 </div>
 <script>
 $(document).ready(function() {

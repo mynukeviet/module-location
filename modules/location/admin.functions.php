@@ -5,8 +5,7 @@
  * @Author mynukeviet (contact@mynukeviet.net)
  * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
-if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE') or ! defined('NV_IS_MODADMIN'))
-    die('Stop!!!');
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE') or !defined('NV_IS_MODADMIN')) die('Stop!!!');
 
 define('NV_IS_FILE_ADMIN', true);
 require_once NV_ROOTDIR . '/modules/' . $module_file . '/location.class.php';

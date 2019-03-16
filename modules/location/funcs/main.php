@@ -7,7 +7,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate 12-11-2010 20:40
  */
-if (! defined('NV_IS_MOD_LOCATION')) {
+if (!defined('NV_IS_MOD_LOCATION')) {
     die('Stop!!!');
 }
 

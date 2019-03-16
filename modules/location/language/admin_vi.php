@@ -5,8 +5,7 @@
  * @Author mynukeviet (contact@mynukeviet.net)
  * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
-if (! defined('NV_MAINFILE'))
-    die('Stop!!!');
+if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $lang_translator['author'] = 'mynukeviet (contact@mynukeviet.net)';
 $lang_translator['createdate'] = '16/12/2015, 07:05';

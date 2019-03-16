@@ -5,8 +5,7 @@
  * @Author mynukeviet (contact@mynukeviet.net)
  * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
-if (! defined('NV_IS_FILE_SITEINFO'))
-    die('Stop!!!');
+if (!defined('NV_IS_FILE_SITEINFO')) die('Stop!!!');
 
 $lang_siteinfo = nv_get_lang_module($mod);
 /*

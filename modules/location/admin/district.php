@@ -7,8 +7,7 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Wed, 16 Dec 2015 08:12:58 GMT
  */
-if (! defined('NV_IS_FILE_ADMIN'))
-    die('Stop!!!');
+if (!defined('NV_IS_FILE_ADMIN')) die('Stop!!!');
 
 if ($nv_Request->isset_request('get_alias_title', 'post')) {
     $alias = $nv_Request->get_title('get_alias_title', 'post', '');
@@ -46,9 +45,8 @@ if ($nv_Request->isset_request('ajax_action', 'post')) {
         $result = $db->query($sql);
         $weight = 0;
         while ($row = $result->fetch()) {
-            ++ $weight;
-            if ($weight == $new_vid)
-                ++ $weight;
+            ++$weight;
+            if ($weight == $new_vid) ++$weight;
             $sql = 'UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $weight . ' WHERE districtid=' . $row['districtid'] . ' AND provinceid=' . $db->quote($provinceid);
             $db->query($sql);
         }
@@ -68,7 +66,7 @@ if ($nv_Request->isset_request('delete_districtid', 'get') and $nv_Request->isse
     $provinceid = $nv_Request->get_int('provinceid', 'get', 0);
     $countryid = $nv_Request->get_int('countryid', 'get', 0);
     $delete_checkss = $nv_Request->get_string('delete_checkss', 'get');
-    if (! empty($districtid) and $delete_checkss == md5($districtid . NV_CACHE_PREFIX . $client_info['session_id'])) {
+    if (!empty($districtid) and $delete_checkss == md5($districtid . NV_CACHE_PREFIX . $client_info['session_id'])) {
         $weight = 0;
         $sql = 'SELECT weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE districtid =' . $db->quote($districtid);
         $result = $db->query($sql);
@@ -79,7 +77,7 @@ if ($nv_Request->isset_request('delete_districtid', 'get') and $nv_Request->isse
             $sql = 'SELECT districtid, weight FROM ' . $db_config['prefix'] . '_' . $module_data . '_district WHERE weight >' . $weight;
             $result = $db->query($sql);
             while (list ($districtid, $weight) = $result->fetch(3)) {
-                $weight --;
+                $weight--;
                 $db->query('UPDATE ' . $db_config['prefix'] . '_' . $module_data . '_district SET weight=' . $weight . ' WHERE districtid=' . intval($districtid));
             }
         }
@@ -97,13 +95,13 @@ $row['provinceid'] = $nv_Request->get_int('provinceid', 'post,get', 0);
 
 $location = new Location();
 $array_country = $location->getArrayCountry();
-if (! isset($array_country[$row['countryid']])) {
+if (!isset($array_country[$row['countryid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=country');
     die();
 }
 
 $array_province = $location->getArrayProvince('', $row['countryid']);
-if (! isset($array_province[$row['provinceid']])) {
+if (!isset($array_province[$row['provinceid']])) {
     Header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=province');
     die();
 }
@@ -191,7 +189,7 @@ $q = $nv_Request->get_title('q', 'post,get');
 
 // Fetch Limit
 $show_view = false;
-if (! $nv_Request->isset_request('id', 'post,get')) {
+if (!$nv_Request->isset_request('id', 'post,get')) {
     $where = '';
     $show_view = true;
     $per_page = 10;
@@ -200,13 +198,13 @@ if (! $nv_Request->isset_request('id', 'post,get')) {
         ->select('COUNT(*)')
         ->from('' . $db_config['prefix'] . '_' . $module_data . '_district');
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $where .= ' AND ( districtid LIKE :q_districtid OR title LIKE :q_title OR type LIKE :q_type OR alias LIKE :q_alias OR location LIKE :q_location)';
     }
     $db->where('provinceid=' . $db->quote($row['provinceid']) . $where);
     $sth = $db->prepare($db->sql());
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $sth->bindValue(':q_districtid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
         $sth->bindValue(':q_alias', '%' . $q . '%');
@@ -222,7 +220,7 @@ if (! $nv_Request->isset_request('id', 'post,get')) {
         ->offset(($page - 1) * $per_page);
     $sth = $db->prepare($db->sql());
     
-    if (! empty($q)) {
+    if (!empty($q)) {
         $sth->bindValue(':q_districtid', '%' . $q . '%');
         $sth->bindValue(':q_title', '%' . $q . '%');
         $sth->bindValue(':q_alias', '%' . $q . '%');
@@ -242,18 +240,18 @@ $xtpl->assign('Q', $q);
 
 if ($show_view) {
     $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;countryid=' . $row['countryid'] . '&amp;provinceid=' . $row['provinceid'];
-    if (! empty($q)) {
+    if (!empty($q)) {
         $base_url .= '&q=' . $q;
     }
     $generate_page = nv_generate_page($base_url, $num_items, $per_page, $page);
-    if (! empty($generate_page)) {
+    if (!empty($generate_page)) {
         $xtpl->assign('NV_GENERATE_PAGE', $generate_page);
         $xtpl->parse('main.view.generate_page');
     }
     $number = $page > 1 ? ($per_page * ($page - 1)) + 1 : 1;
     while ($view = $sth->fetch()) {
         $view['count'] = $db->query('SELECT COUNT(*) FROM ' . $db_config['prefix'] . '_' . $module_data . '_ward WHERE districtid=' . $view['districtid'])->fetchColumn();
-        for ($i = 1; $i <= $num_items; ++ $i) {
+        for ($i = 1; $i <= $num_items; ++$i) {
             $xtpl->assign('WEIGHT', array(
                 'key' => $i,
                 'title' => $i,
@@ -271,7 +269,7 @@ if ($show_view) {
     $xtpl->parse('main.view');
 }
 
-if (! empty($array_province)) {
+if (!empty($array_province)) {
     foreach ($array_province as $province) {
         $province['selected'] = $province['provinceid'] == $row['provinceid'] ? 'selected="selected"' : '';
         $xtpl->assign('PROVINCE', $province);
@@ -279,7 +277,7 @@ if (! empty($array_province)) {
     }
 }
 
-if (! empty($error)) {
+if (!empty($error)) {
     $xtpl->assign('ERROR', implode('<br />', $error));
     $xtpl->parse('main.error');
 }

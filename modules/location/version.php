@@ -5,8 +5,7 @@
  * @Author mynukeviet (contact@mynukeviet.net)
  * @Copyright (C) 2016 mynukeviet. All rights reserved
  */
-if (! defined('NV_MAINFILE'))
-    die('Stop!!!');
+if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $module_version = array(
     'name' => 'Location',
