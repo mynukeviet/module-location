@@ -368,9 +368,6 @@ class Location
 
     public function locationString($provinceid = 0, $districtid = 0, $wardid = 0, $caret = ' » ', $module_url = '')
     {
-        global $module_config;
-
-        $location_array_config = $module_config['location'];
         $string = array();
 
         if (!empty($wardid)) {
@@ -386,6 +383,9 @@ class Location
         if (!empty($provinceid)) {
             $province_info = $this->getProvinceInfo($provinceid);
             $string[] = $module_url ? '<a href="' . $module_url . '/p/' . change_alias($province_info['title']) . '-' . $province_info['provinceid'] . '" title="' . $province_info['name'] . '">' . $province_info['name'] . '</a>' : $province_info['name'];
+        } elseif ($this->all) {
+            include NV_ROOTDIR . '/modules/location/language/' . NV_LANG_INTERFACE . '.php';
+            $string[] = $lang_module['all'];
         }
 
         return implode($caret, $string);
