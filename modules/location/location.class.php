@@ -54,6 +54,8 @@ class Location
 
     private $col_class = 'col-xs-24 col-sm-12 col-md-12';
 
+    private $all = 1;
+
     public function set($key, $value)
     {
         if ($key == 'SelectCountryid') {
@@ -101,6 +103,8 @@ class Location
         } elseif ($key == 'Index') {
             $this->setIndex($value);
         } elseif ($key == 'ColClass') {
+            $this->setColClass($value);
+        } elseif ($key == 'All') {
             $this->setColClass($value);
         }
     }
@@ -220,6 +224,11 @@ class Location
         $this->col_class = $col_class;
     }
 
+    private function setAll($all)
+    {
+        $this->all = $all;
+    }
+
     public function getArrayCountry($inArrayId = array())
     {
         global $db_slave, $db_config, $module_config;
@@ -241,7 +250,7 @@ class Location
 
     public function getArrayProvince($inArrayId = array(), $countryid = 0)
     {
-        global $db_slave, $db_config, $module_config;
+        global $db_slave, $db_config, $module_config, $lang_module;
 
         $where = '';
         if (!empty($inArrayId)) {
@@ -257,6 +266,15 @@ class Location
         }
 
         $array_province = array();
+        include NV_ROOTDIR . '/modules/location/language/' . NV_LANG_INTERFACE . '.php';
+
+        if ($this->all) {
+            $array_province[0] = array(
+                'provinceid' => 0,
+                'title' => $lang_module['all']
+            );
+        }
+
         $result = $db_slave->query('SELECT * FROM ' . $db_config['prefix'] . '_location_province WHERE status=1 ' . $where . ' ORDER BY weight ASC');
         while ($row = $result->fetch()) {
             $row['name'] = ($module_config['location']['allow_type'] and !empty($row['type'])) ? $row['type'] . ' ' . $row['title'] : $row['title'];
